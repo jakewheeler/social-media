@@ -1,5 +1,5 @@
 import { Layout } from '../components/Layout';
-import { Flex, Box } from '@chakra-ui/core';
+import { Flex } from '@chakra-ui/core';
 import { Feed, FeedItem, FeedItemProps } from '../components/Feed';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
@@ -14,7 +14,7 @@ interface IndexProps {
 
 export default function Index({ feedList, appUser }: IndexProps) {
   const [tweets, setTweets] = useState(feedList);
-  const [user, setUser] = useState(appUser);
+  const [user] = useState(appUser);
   return (
     <Layout>
       <Tweet user={user} tweets={tweets} setTweets={setTweets} />
@@ -27,17 +27,18 @@ export default function Index({ feedList, appUser }: IndexProps) {
               content={tweet.content}
               handle={tweet.handle}
               name={tweet.name}
+              uuid={tweet.uuid}
             />
           ))}
         </Feed>
         <News />
       </Flex>
-      <style jsx global>{`
+      {/* <style jsx global>{`
         html {
           background: #243447;
           font-family: Helvetica;
         }
-      `}</style>
+      `}</style> */}
     </Layout>
   );
 }
@@ -59,7 +60,7 @@ interface Person {
   };
 }
 
-interface People {
+export interface People {
   results: Person[];
 }
 
@@ -79,13 +80,14 @@ async function getKanyeQuote(): Promise<string> {
   return str;
 }
 
-export function createUser(person: Person) {
+export function createUser(person: Person): FeedItemProps {
   return {
     avatarSrc: person.picture.thumbnail,
     content:
       'This is some temporary sentence that will be changed later but for now its just for the sake of testing ok thank you',
     handle: `@${person.login.username}`,
     name: `${person.name.first} ${person.name.last}`,
+    uuid: person.login.uuid,
   };
 }
 

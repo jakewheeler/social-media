@@ -6,6 +6,12 @@ export default function App({ Component, pageProps }: AppProps) {
     <ThemeProvider>
       <CSSReset />
       <Component {...pageProps} />
+      <style jsx global>{`
+        html {
+          background: #243447;
+          font-family: Helvetica;
+        }
+      `}</style>
     </ThemeProvider>
   );
 }
