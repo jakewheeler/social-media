@@ -1,13 +1,12 @@
-import { List, ListItem } from '@chakra-ui/core';
+import { Stack, Link, Heading, Box } from '@chakra-ui/core';
 import NextLink from 'next/link';
-import { Link } from '@chakra-ui/core';
 
 type MenuProps = {
   children?: any;
 };
 
 export function Menu({ children }: MenuProps) {
-  return <List spacing={3}>{children}</List>;
+  return <Stack marginRight={55}>{children}</Stack>;
 }
 
 type MenuItemProps = {
@@ -18,12 +17,15 @@ type MenuItemProps = {
 
 export function MenuItem({ icon, text, link }: MenuItemProps) {
   return (
-    <ListItem>
-      <h2>
-        <NextLink href={link}>
-          <Link color='#ffffff'>{text}</Link>
-        </NextLink>
-      </h2>
-    </ListItem>
+    <Stack isInline>
+      <Box marginTop={10}>{icon}</Box>
+      <Box marginTop={10}>
+        <Heading as='h4' size='md'>
+          <NextLink href={link}>
+            <Link color='#ffffff'>{text}</Link>
+          </NextLink>
+        </Heading>
+      </Box>
+    </Stack>
   );
 }
