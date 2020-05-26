@@ -20,7 +20,7 @@ export type FeedItemProps = {
   avatarSrc: string;
   name: string;
   handle: string;
-  content: string;
+  content?: string;
 };
 
 export function FeedItem({ avatarSrc, name, handle, content }: FeedItemProps) {

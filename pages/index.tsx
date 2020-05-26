@@ -3,29 +3,34 @@ import { Flex, Box } from '@chakra-ui/core';
 import { Feed, FeedItem, FeedItemProps } from '../components/Feed';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
+import { News } from '../components/News';
+import { Tweet } from '../components/Tweet';
+import { useState } from 'react';
 
 interface IndexProps {
   feedList: FeedItemProps[];
+  appUser: FeedItemProps;
 }
 
-export default function Index({ feedList }: IndexProps) {
+export default function Index({ feedList, appUser }: IndexProps) {
+  const [tweets, setTweets] = useState(feedList);
+  const [user, setUser] = useState(appUser);
   return (
     <Layout>
+      <Tweet user={user} tweets={tweets} setTweets={setTweets} />
       <Flex direction='row' alignContent='flex-end'>
         <Feed>
-          {feedList.map((feedItem) => (
+          {tweets.map((tweet) => (
             <FeedItem
-              key={feedItem.handle}
-              avatarSrc={feedItem.avatarSrc}
-              content={feedItem.content}
-              handle={feedItem.handle}
-              name={feedItem.name}
+              key={tweet.handle + Math.random()}
+              avatarSrc={tweet.avatarSrc}
+              content={tweet.content}
+              handle={tweet.handle}
+              name={tweet.name}
             />
           ))}
         </Feed>
-        <Box w='100%' bg='pink'>
-          right
-        </Box>
+        <News />
       </Flex>
       <style jsx global>{`
         html {
@@ -74,8 +79,21 @@ async function getKanyeQuote(): Promise<string> {
   return str;
 }
 
+export function createUser(person: Person) {
+  return {
+    avatarSrc: person.picture.thumbnail,
+    content:
+      'This is some temporary sentence that will be changed later but for now its just for the sake of testing ok thank you',
+    handle: `@${person.login.username}`,
+    name: `${person.name.first} ${person.name.last}`,
+  };
+}
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  let people = await axios.get<People>('https://randomuser.me/api/?results=5');
+  let people = await axios.get<People>('https://randomuser.me/api/?results=35');
+  let user = await axios.get<People>(
+    'https://randomuser.me/api/?uuid=155e77ee-ba6d-486f-95ce-0e0c0fb4b919'
+  );
   // let quotes = async () => {
   //   let quotes = [];
   //   let numQuotes = people.data.results.length;
@@ -87,13 +105,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // };
   // let quoteList = await quotes();
   let feedList = people.data.results.map((person, index) => {
-    return {
-      avatarSrc: person.picture.thumbnail,
-      content: 'temp',
-      handle: `@${person.login.username}`,
-      name: `${person.name.first} ${person.name.last}`,
-    };
+    return createUser(person);
   });
 
-  return { props: { feedList } };
+  let appUser = createUser(user.data.results[0]);
+
+  return { props: { feedList, appUser } };
 };
