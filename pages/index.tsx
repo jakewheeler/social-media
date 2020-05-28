@@ -6,6 +6,7 @@ import axios from 'axios';
 import { News } from '../components/News';
 import { Tweet } from '../components/Tweet';
 import { useState } from 'react';
+import { Users, User } from '../interfaces/users';
 
 interface IndexProps {
   feedList: FeedItemProps[];
@@ -16,7 +17,7 @@ export default function Index({ feedList, appUser }: IndexProps) {
   const [tweets, setTweets] = useState(feedList);
   const [user] = useState(appUser);
   return (
-    <Layout>
+    <Layout user={user}>
       <Tweet user={user} tweets={tweets} setTweets={setTweets} />
       <Flex direction='row' alignContent='flex-end'>
         <Feed>
@@ -31,37 +32,9 @@ export default function Index({ feedList, appUser }: IndexProps) {
             />
           ))}
         </Feed>
-        <News />
       </Flex>
-      {/* <style jsx global>{`
-        html {
-          background: #243447;
-          font-family: Helvetica;
-        }
-      `}</style> */}
     </Layout>
   );
-}
-
-interface Person {
-  picture: {
-    large: string;
-    medium: string;
-    thumbnail: string;
-  };
-  login: {
-    uuid: string;
-    username: string;
-  };
-
-  name: {
-    first: string;
-    last: string;
-  };
-}
-
-export interface People {
-  results: Person[];
 }
 
 interface KanyeQuote {
@@ -80,7 +53,7 @@ async function getKanyeQuote(): Promise<string> {
   return str;
 }
 
-export function createUser(person: Person): FeedItemProps {
+export function createUser(person: User): FeedItemProps {
   return {
     avatarSrc: person.picture.thumbnail,
     content:
@@ -92,8 +65,8 @@ export function createUser(person: Person): FeedItemProps {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  let people = await axios.get<People>('https://randomuser.me/api/?results=35');
-  let user = await axios.get<People>(
+  let people = await axios.get<Users>('https://randomuser.me/api/?results=35');
+  let user = await axios.get<Users>(
     'https://randomuser.me/api/?uuid=155e77ee-ba6d-486f-95ce-0e0c0fb4b919'
   );
   // let quotes = async () => {

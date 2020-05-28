@@ -6,7 +6,7 @@ type MenuProps = {
 };
 
 export function Menu({ children }: MenuProps) {
-  return <Stack marginRight={55}>{children}</Stack>;
+  return <Stack>{children}</Stack>;
 }
 
 type MenuItemProps = {
