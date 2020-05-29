@@ -1,4 +1,12 @@
-import { Textarea, Flex, Stack, Avatar, Button, Box } from '@chakra-ui/core';
+import {
+  Textarea,
+  Flex,
+  Stack,
+  Avatar,
+  Button,
+  Text,
+  Box,
+} from '@chakra-ui/core';
 import { useState, ChangeEvent, Dispatch, SetStateAction } from 'react';
 import { FeedItemProps } from '../components/Feed';
 
@@ -11,6 +19,7 @@ type TweetProps = {
 export function Tweet({ user, tweets, setTweets }: TweetProps) {
   const [btnIsDisabled, setBtnIsDisabled] = useState(true);
   const [tweetContent, setTweetContent] = useState('');
+  const [charCount, setCharCount] = useState(0);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -21,6 +30,10 @@ export function Tweet({ user, tweets, setTweets }: TweetProps) {
       setBtnIsDisabled(false);
     }
     setTweetContent(inputValue);
+    setCharCount(inputValue.length);
+    if (inputValue.length > 180) {
+      setBtnIsDisabled(true);
+    }
   };
 
   const submitTweet = () => {
@@ -62,16 +75,20 @@ export function Tweet({ user, tweets, setTweets }: TweetProps) {
           value={tweetContent}
         ></Textarea>
       </Stack>
-      <Button
-        variantColor='blue'
-        variant='solid'
-        alignSelf='flex-end'
-        margin={2}
-        isDisabled={btnIsDisabled}
-        onClick={submitTweet}
-      >
-        Tweet
-      </Button>
+      <Stack margin={2}>
+        <Box color={charCount > 180 ? 'tomato' : 'white'} alignSelf='flex-end'>
+          {charCount}
+        </Box>
+        <Button
+          variantColor='blue'
+          variant='solid'
+          alignSelf='flex-end'
+          isDisabled={btnIsDisabled}
+          onClick={submitTweet}
+        >
+          Tweet
+        </Button>
+      </Stack>
     </Flex>
   );
 }

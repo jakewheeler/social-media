@@ -15,10 +15,7 @@ export function UserLogout({ user }: UserLogoutProps) {
           <Box color='white'>{user.handle}</Box>
         </Stack>
       </Stack>
-      <Button
-        onClick={() => console.log('nothing to see here, folks')}
-        variantColor='blue'
-      >
+      <Button onClick={() => alert('Fake logout')} variantColor='blue'>
         Logout
       </Button>
     </Stack>

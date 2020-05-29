@@ -34,7 +34,7 @@ export function FeedItem({
   uuid,
 }: FeedItemProps) {
   return (
-    <ListItem marginTop={1}>
+    <ListItem marginTop={1} overflowWrap='anywhere'>
       <Box
         boxSizing='content-box'
         borderWidth='1px'

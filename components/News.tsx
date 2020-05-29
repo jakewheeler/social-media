@@ -24,7 +24,7 @@ export function News({ children }: NewsProps) {
   );
 }
 
-type NewsItem = {
+type NewsItemProps = {
   storyId: number;
 };
 
@@ -40,7 +40,7 @@ interface HnStory {
   url: string;
 }
 
-export function NewsItem({ storyId }: NewsItem) {
+export function NewsItem({ storyId }: NewsItemProps) {
   const { data, error } = useSWR<HnStory, Error>(
     `https://hacker-news.firebaseio.com/v0/item/${storyId}.json?print=pretty`
   );
