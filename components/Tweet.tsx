@@ -1,13 +1,5 @@
-import {
-  Textarea,
-  Flex,
-  Stack,
-  Avatar,
-  Button,
-  Text,
-  Box,
-} from '@chakra-ui/core';
-import { useState, ChangeEvent, Dispatch, SetStateAction } from 'react';
+import { Textarea, Flex, Stack, Avatar, Button, Box } from '@chakra-ui/core';
+import { ChangeEvent, Dispatch, SetStateAction, useReducer } from 'react';
 import { FeedItemProps } from '../components/Feed';
 
 type TweetProps = {
@@ -16,33 +8,60 @@ type TweetProps = {
   setTweets: Dispatch<SetStateAction<FeedItemProps[]>>;
 };
 
+type TweetState = {
+  btnIsDisabled: boolean;
+  tweetContent: string;
+  charCount: number;
+};
+
+const tweetState: TweetState = {
+  btnIsDisabled: true,
+  tweetContent: '',
+  charCount: 0,
+};
+
+type TweetReducerAction =
+  | { type: 'SUBMIT_TWEET' }
+  | { type: 'DISABLE_BTN' }
+  | { type: 'ENABLE_BTN' }
+  | { type: 'HANDLE_TWEET_CHANGE'; tweetValue: string };
+
+function tweetReducer(state: TweetState, action: TweetReducerAction) {
+  switch (action.type) {
+    case 'SUBMIT_TWEET':
+      return { ...state, btnIsDisabled: true, tweetContent: '', charCount: 0 };
+    case 'DISABLE_BTN':
+      return { ...state, btnIsDisabled: true };
+    case 'ENABLE_BTN':
+      return { ...state, btnIsDisabled: false };
+    case 'HANDLE_TWEET_CHANGE':
+      return {
+        ...state,
+        btnIsDisabled:
+          action.tweetValue.length > 180 || action.tweetValue.length === 0
+            ? true
+            : false,
+        tweetContent: action.tweetValue,
+        charCount: action.tweetValue.length,
+      };
+  }
+}
+
 export function Tweet({ user, tweets, setTweets }: TweetProps) {
-  const [btnIsDisabled, setBtnIsDisabled] = useState(true);
-  const [tweetContent, setTweetContent] = useState('');
-  const [charCount, setCharCount] = useState(0);
+  const [state, dispatch] = useReducer(tweetReducer, tweetState);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     let inputValue = e.target.value;
-    if (!inputValue) {
-      setBtnIsDisabled(true);
-    } else {
-      setBtnIsDisabled(false);
-    }
-    setTweetContent(inputValue);
-    setCharCount(inputValue.length);
-    if (inputValue.length > 180) {
-      setBtnIsDisabled(true);
-    }
+    dispatch({ type: 'HANDLE_TWEET_CHANGE', tweetValue: inputValue });
   };
 
   const submitTweet = () => {
-    if (!btnIsDisabled) {
+    if (!state.btnIsDisabled) {
       // submit and clear
       let newTweets = addNewTweet();
       setTweets(newTweets);
-      setTweetContent('');
-      setBtnIsDisabled(true);
+      dispatch({ type: 'SUBMIT_TWEET' });
     }
   };
 
@@ -50,7 +69,7 @@ export function Tweet({ user, tweets, setTweets }: TweetProps) {
     let newTweets = [...tweets];
     let newTweet: FeedItemProps = {
       ...user,
-      content: tweetContent,
+      content: state.tweetContent,
     };
     newTweets.unshift(newTweet);
     return newTweets;
@@ -72,18 +91,21 @@ export function Tweet({ user, tweets, setTweets }: TweetProps) {
           bg='#243447'
           color='white'
           onChange={handleInputChange}
-          value={tweetContent}
+          value={state.tweetContent}
         ></Textarea>
       </Stack>
       <Stack margin={2}>
-        <Box color={charCount > 180 ? 'tomato' : 'white'} alignSelf='flex-end'>
-          {charCount}
+        <Box
+          color={state.charCount > 180 ? 'tomato' : 'white'}
+          alignSelf='flex-end'
+        >
+          {state.charCount}
         </Box>
         <Button
           variantColor='blue'
           variant='solid'
           alignSelf='flex-end'
-          isDisabled={btnIsDisabled}
+          isDisabled={state.btnIsDisabled}
           onClick={submitTweet}
         >
           Tweet

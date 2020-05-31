@@ -18,7 +18,7 @@ export function News({ children }: NewsProps) {
     <Stack marginTop={10} marginLeft={10}>
       <Box color='white'>What's happening</Box>
       {data.map((id) => (
-        <NewsItem storyId={id} />
+        <NewsItem key={id} storyId={id} />
       ))}
     </Stack>
   );
