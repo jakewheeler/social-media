@@ -8,7 +8,6 @@ import {
   Flex,
   Link,
 } from '@chakra-ui/core';
-import NextLink from 'next/link';
 
 type FeedProps = {
   children?: any;
@@ -47,11 +46,7 @@ export function FeedItem({
           <Avatar name={name} src={avatarSrc} />
           <Stack spacing={0} marginLeft={5}>
             <Stack isInline spacing={3}>
-              <Box>
-                <NextLink as={`/profile/${uuid}`} href='/profile/[uuid]'>
-                  <Link color='white'>{name}</Link>
-                </NextLink>
-              </Box>
+              <Text color='white'>{name}</Text>
               <Text color='grey'>{handle}</Text>
             </Stack>
             <Text color='white' marginTop={3}>

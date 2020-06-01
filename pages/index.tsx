@@ -3,7 +3,6 @@ import { Flex } from '@chakra-ui/core';
 import { Feed, FeedItem, FeedItemProps } from '../components/Feed';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
-import { News } from '../components/News';
 import { Tweet } from '../components/Tweet';
 import { useState } from 'react';
 import { Users, User } from '../interfaces/users';
