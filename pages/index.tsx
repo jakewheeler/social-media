@@ -14,12 +14,6 @@ interface IndexProps {
 }
 
 export default function Index() {
-  let { data: feedList, error: feedError } = useSWR<Users, Error>(
-    'https://randomuser.me/api/?results=35'
-  );
-
-  const [tweets, setTweets] = useState<FeedItemProps[]>([]);
-
   let { data: user, error: userError } = useSWR<Users, Error>(
     'https://randomuser.me/api/?uuid=155e77ee-ba6d-486f-95ce-0e0c0fb4b919'
   );
@@ -32,41 +26,16 @@ export default function Index() {
     setAppUser(appUser);
   }, [user]);
 
-  // tweet handler
-  useEffect(() => {
-    if (!feedList) return;
-
-    let feed = feedList.results.map((tweet) => {
-      return createUser(tweet);
-    });
-    setTweets(feed);
-  }, [feedList]);
-
-  if (feedError) return <Box>Failed to load feed</Box>;
-  if (!feedList) return <Spinner></Spinner>;
+  if (!appUser) return <Box></Box>;
 
   return (
     <Box>
-      {appUser && tweets ? (
-        <Layout user={appUser}>
-          <Tweet user={appUser} tweets={tweets} setTweets={setTweets} />
-          <Flex direction='row' alignContent='flex-end'>
-            <Feed>
-              {tweets.map((tweet) => (
-                <FeedItem
-                  key={tweet.handle + Math.random()}
-                  avatarSrc={tweet.avatarSrc}
-                  content={tweet.content}
-                  handle={tweet.handle}
-                  name={tweet.name}
-                />
-              ))}
-            </Feed>
-          </Flex>
-        </Layout>
-      ) : (
-        <Spinner></Spinner>
-      )}
+      <Layout user={appUser}>
+        {/* <Tweet user={appUser} tweets={tweets} setTweets={setTweets} /> */}
+        {/* <Flex direction='row' alignContent='flex-end'> */}
+        <Feed />
+        {/* </Flex> */}
+      </Layout>
     </Box>
   );
 }

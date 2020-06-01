@@ -71,7 +71,7 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
               Social Media
             </Heading>
           </header>
-          <main>{props.children}</main>
+          <main style={{ minWidth: 900 }}>{props.children}</main>
         </Box>
       </Flex>
       <News />

@@ -6,15 +6,55 @@ import {
   Text,
   Avatar,
   Flex,
-  Link,
+  Spinner,
 } from '@chakra-ui/core';
 
-type FeedProps = {
-  children?: any;
-};
+import { useEffect, useState } from 'react';
+import useSWR from 'swr';
+import { Users } from '../interfaces/users';
+import { createUser } from '../pages/index';
 
-export function Feed({ children }: FeedProps) {
-  return <List minWidth={'100%'}>{children}</List>;
+export function Feed() {
+  const url = 'https://randomuser.me/api/?results=35';
+  const [tweets, setTweets] = useState<FeedItemProps[]>([]);
+  let { data: feedList, error: feedError } = useSWR<Users, Error>(url);
+
+  // tweet handler
+  useEffect(() => {
+    if (!feedList) return;
+
+    let feed = feedList.results.map((tweet) => {
+      return createUser(tweet);
+    });
+    setTweets(feed);
+  }, [feedList]);
+
+  if (feedError)
+    return (
+      <Box textAlign='center'>
+        <Text>Failed to load feed</Text>
+      </Box>
+    );
+  if (!feedList)
+    return (
+      <Box textAlign='center'>
+        <Spinner></Spinner>
+      </Box>
+    );
+
+  return (
+    <List minWidth={'100%'}>
+      {tweets.map((tweet) => (
+        <FeedItem
+          key={tweet.handle + Math.random()}
+          avatarSrc={tweet.avatarSrc}
+          content={tweet.content}
+          handle={tweet.handle}
+          name={tweet.name}
+        />
+      ))}
+    </List>
+  );
 }
 
 export type FeedItemProps = {
@@ -25,13 +65,7 @@ export type FeedItemProps = {
   uuid?: string;
 };
 
-export function FeedItem({
-  avatarSrc,
-  name,
-  handle,
-  content,
-  uuid,
-}: FeedItemProps) {
+export function FeedItem({ avatarSrc, name, handle, content }: FeedItemProps) {
   return (
     <ListItem marginTop={1} overflowWrap='anywhere'>
       <Box
