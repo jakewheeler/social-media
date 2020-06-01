@@ -1,38 +1,73 @@
 import { Layout } from '../components/Layout';
-import { Flex } from '@chakra-ui/core';
+import { Flex, Box, Spinner } from '@chakra-ui/core';
 import { Feed, FeedItem, FeedItemProps } from '../components/Feed';
 import { GetServerSideProps } from 'next';
 import axios from 'axios';
 import { Tweet } from '../components/Tweet';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Users, User } from '../interfaces/users';
+import useSWR from 'swr';
 
 interface IndexProps {
   feedList: FeedItemProps[];
   appUser: FeedItemProps;
 }
 
-export default function Index({ feedList, appUser }: IndexProps) {
-  const [tweets, setTweets] = useState(feedList);
-  const [user] = useState(appUser);
+export default function Index() {
+  let { data: feedList, error: feedError } = useSWR<Users, Error>(
+    'https://randomuser.me/api/?results=35'
+  );
+
+  const [tweets, setTweets] = useState<FeedItemProps[]>([]);
+
+  let { data: user, error: userError } = useSWR<Users, Error>(
+    'https://randomuser.me/api/?uuid=155e77ee-ba6d-486f-95ce-0e0c0fb4b919'
+  );
+
+  const [appUser, setAppUser] = useState<FeedItemProps>();
+
+  useEffect(() => {
+    if (!user) return;
+    let appUser = createUser(user.results[0]);
+    setAppUser(appUser);
+  }, [user]);
+
+  // tweet handler
+  useEffect(() => {
+    if (!feedList) return;
+
+    let feed = feedList.results.map((tweet) => {
+      return createUser(tweet);
+    });
+    setTweets(feed);
+  }, [feedList]);
+
+  if (feedError) return <Box>Failed to load feed</Box>;
+  if (!feedList) return <Spinner></Spinner>;
+
   return (
-    <Layout user={user}>
-      <Tweet user={user} tweets={tweets} setTweets={setTweets} />
-      <Flex direction='row' alignContent='flex-end'>
-        <Feed>
-          {tweets.map((tweet) => (
-            <FeedItem
-              key={tweet.handle + Math.random()}
-              avatarSrc={tweet.avatarSrc}
-              content={tweet.content}
-              handle={tweet.handle}
-              name={tweet.name}
-              uuid={tweet.uuid}
-            />
-          ))}
-        </Feed>
-      </Flex>
-    </Layout>
+    <Box>
+      {appUser && tweets ? (
+        <Layout user={appUser}>
+          <Tweet user={appUser} tweets={tweets} setTweets={setTweets} />
+          <Flex direction='row' alignContent='flex-end'>
+            <Feed>
+              {tweets.map((tweet) => (
+                <FeedItem
+                  key={tweet.handle + Math.random()}
+                  avatarSrc={tweet.avatarSrc}
+                  content={tweet.content}
+                  handle={tweet.handle}
+                  name={tweet.name}
+                />
+              ))}
+            </Feed>
+          </Flex>
+        </Layout>
+      ) : (
+        <Spinner></Spinner>
+      )}
+    </Box>
   );
 }
 
@@ -78,7 +113,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   //   return quotes;
   // };
   // let quoteList = await quotes();
-  let feedList = people.data.results.map((person, index) => {
+  let feedList = people.data.results.map((person) => {
     return createUser(person);
   });
 
