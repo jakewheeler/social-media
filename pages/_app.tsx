@@ -6,7 +6,10 @@ import axios from 'axios';
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig
-      value={{ fetcher: (url) => axios.get(url).then((resp) => resp.data) }}
+      value={{
+        fetcher: (url) => axios.get(url).then((resp) => resp.data),
+        revalidateOnFocus: false,
+      }}
     >
       <ThemeProvider>
         <CSSReset />

@@ -10,24 +10,25 @@ import {
 } from '@chakra-ui/core';
 
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import useSWR from 'swr';
 import { Users } from '../interfaces/users';
 import { createUser } from '../pages/index';
 
-export function Feed() {
+async function fetchTweets(): Promise<FeedItemProps[]> {
   const url = 'https://randomuser.me/api/?results=35';
-  const [tweets, setTweets] = useState<FeedItemProps[]>([]);
-  let { data: feedList, error: feedError } = useSWR<Users, Error>(url);
+  let users = await axios.get<Users>(url);
+  let feed = users.data.results.map((tweet) => {
+    return createUser(tweet);
+  });
+  return feed;
+}
 
-  // tweet handler
-  useEffect(() => {
-    if (!feedList) return;
-
-    let feed = feedList.results.map((tweet) => {
-      return createUser(tweet);
-    });
-    setTweets(feed);
-  }, [feedList]);
+export function Feed() {
+  let { data: tweets, error: feedError } = useSWR<FeedItemProps[], Error>(
+    'tweets',
+    fetchTweets
+  );
 
   if (feedError)
     return (
@@ -35,7 +36,7 @@ export function Feed() {
         <Text>Failed to load feed</Text>
       </Box>
     );
-  if (!feedList)
+  if (!tweets)
     return (
       <Box textAlign='center'>
         <Spinner></Spinner>
@@ -48,7 +49,7 @@ export function Feed() {
         <FeedItem
           key={tweet.handle + Math.random()}
           avatarSrc={tweet.avatarSrc}
-          content={tweet.content}
+          // content={tweet.content}
           handle={tweet.handle}
           name={tweet.name}
         />
@@ -65,7 +66,15 @@ export type FeedItemProps = {
   uuid?: string;
 };
 
+async function fetchQuote(): Promise<string> {
+  let url = 'https://api.kanye.rest';
+  let req = await axios.get<KanyeQuote>(url);
+  return req.data.quote;
+}
+
 export function FeedItem({ avatarSrc, name, handle, content }: FeedItemProps) {
+  let { data, error } = useSWR<string, Error>(`${handle}-yerdi`, fetchQuote);
+
   return (
     <ListItem marginTop={1} overflowWrap='anywhere'>
       <Box
@@ -83,12 +92,22 @@ export function FeedItem({ avatarSrc, name, handle, content }: FeedItemProps) {
               <Text color='white'>{name}</Text>
               <Text color='grey'>{handle}</Text>
             </Stack>
-            <Text color='white' marginTop={3}>
-              {content}
-            </Text>
+            {data ? (
+              <Text color='white' marginTop={3}>
+                {data}
+              </Text>
+            ) : (
+              <Box textAlign='center'>
+                <Spinner></Spinner>
+              </Box>
+            )}
           </Stack>
         </Flex>
       </Box>
     </ListItem>
   );
+}
+
+interface KanyeQuote {
+  quote: string;
 }

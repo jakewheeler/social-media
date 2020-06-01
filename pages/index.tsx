@@ -1,8 +1,6 @@
 import { Layout } from '../components/Layout';
 import { Flex, Box, Spinner } from '@chakra-ui/core';
-import { Feed, FeedItem, FeedItemProps } from '../components/Feed';
-import { GetServerSideProps } from 'next';
-import axios from 'axios';
+import { Feed, FeedItemProps } from '../components/Feed';
 import { Tweet } from '../components/Tweet';
 import { useState, useEffect } from 'react';
 import { Users, User } from '../interfaces/users';
@@ -32,29 +30,13 @@ export default function Index() {
     <Box>
       <Layout user={appUser}>
         {/* <Tweet user={appUser} tweets={tweets} setTweets={setTweets} /> */}
-        {/* <Flex direction='row' alignContent='flex-end'> */}
         <Feed />
-        {/* </Flex> */}
       </Layout>
     </Box>
   );
 }
 
-interface KanyeQuote {
-  quote: string;
-}
 
-async function getKanyeQuote(): Promise<string> {
-  let str = '';
-  try {
-    let req = await axios.get<KanyeQuote>('https://api.kanye.rest');
-    str = req.data.quote;
-  } catch (error) {
-    console.error(error);
-  }
-
-  return str;
-}
 
 export function createUser(person: User): FeedItemProps {
   return {
@@ -66,27 +48,3 @@ export function createUser(person: User): FeedItemProps {
     uuid: person.login.uuid,
   };
 }
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  let people = await axios.get<Users>('https://randomuser.me/api/?results=35');
-  let user = await axios.get<Users>(
-    'https://randomuser.me/api/?uuid=155e77ee-ba6d-486f-95ce-0e0c0fb4b919'
-  );
-  // let quotes = async () => {
-  //   let quotes = [];
-  //   let numQuotes = people.data.results.length;
-  //   for (let i = 0; i < numQuotes; i++) {
-  //     let quote = await getKanyeQuote();
-  //     quotes.push(quote);
-  //   }
-  //   return quotes;
-  // };
-  // let quoteList = await quotes();
-  let feedList = people.data.results.map((person) => {
-    return createUser(person);
-  });
-
-  let appUser = createUser(user.data.results[0]);
-
-  return { props: { feedList, appUser } };
-};
