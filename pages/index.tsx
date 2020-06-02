@@ -5,6 +5,7 @@ import { Tweet } from '../components/Tweet';
 import { useState, useEffect } from 'react';
 import { Users, User } from '../interfaces/users';
 import useSWR from 'swr';
+import axios from 'axios';
 
 interface IndexProps {
   feedList: FeedItemProps[];
@@ -20,8 +21,11 @@ export default function Index() {
 
   useEffect(() => {
     if (!user) return;
-    let appUser = createUser(user.results[0]);
-    setAppUser(appUser);
+    async function fetchUser() {
+      let appUser = await createUser(user!.results[0]);
+      setAppUser(appUser);
+    }
+    fetchUser();
   }, [user]);
 
   if (!appUser) return <Box></Box>;
@@ -29,20 +33,26 @@ export default function Index() {
   return (
     <Box>
       <Layout user={appUser}>
-        {/* <Tweet user={appUser} tweets={tweets} setTweets={setTweets} /> */}
-        <Feed />
+        <Feed user={appUser}/>
       </Layout>
     </Box>
   );
 }
 
+async function fetchQuote(): Promise<string> {
+  let url = 'https://api.kanye.rest';
+  let req = await axios.get<KanyeQuote>(url);
+  return req.data.quote;
+}
 
+interface KanyeQuote {
+  quote: string;
+}
 
-export function createUser(person: User): FeedItemProps {
+export async function createUser(person: User): Promise<FeedItemProps> {
   return {
     avatarSrc: person.picture.thumbnail,
-    content:
-      'This is some temporary sentence that will be changed later but for now its just for the sake of testing ok thank you',
+    content: await fetchQuote(),
     handle: `@${person.login.username}`,
     name: `${person.name.first} ${person.name.last}`,
     uuid: person.login.uuid,

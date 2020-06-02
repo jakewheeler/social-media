@@ -1,11 +1,12 @@
 import { Textarea, Flex, Stack, Avatar, Button, Box } from '@chakra-ui/core';
 import { ChangeEvent, Dispatch, SetStateAction, useReducer } from 'react';
 import { FeedItemProps } from '../components/Feed';
+import { mutate } from 'swr';
 
 type TweetProps = {
   user: FeedItemProps;
   tweets: FeedItemProps[];
-  setTweets: Dispatch<SetStateAction<FeedItemProps[]>>;
+  feedKey: string;
 };
 
 type TweetState = {
@@ -47,7 +48,7 @@ function tweetReducer(state: TweetState, action: TweetReducerAction) {
   }
 }
 
-export function Tweet({ user, tweets, setTweets }: TweetProps) {
+export function Tweet({ user, tweets, feedKey }: TweetProps) {
   const [state, dispatch] = useReducer(tweetReducer, tweetState);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +61,7 @@ export function Tweet({ user, tweets, setTweets }: TweetProps) {
     if (!state.btnIsDisabled) {
       // submit and clear
       let newTweets = addNewTweet();
-      setTweets(newTweets);
+      mutate(feedKey, newTweets, false);
       dispatch({ type: 'SUBMIT_TWEET' });
     }
   };

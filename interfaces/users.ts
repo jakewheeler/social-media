@@ -18,3 +18,4 @@ export interface User {
 export interface Users {
   results: User[];
 }
+
