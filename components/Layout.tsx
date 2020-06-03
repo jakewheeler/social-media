@@ -1,13 +1,16 @@
 import Head from 'next/head';
 import { PropsWithChildren } from 'react';
-import { Heading, Box, Flex, Button, Icon, Stack } from '@chakra-ui/core';
+import { Heading, Box, Flex, Icon, Stack, Button } from '@chakra-ui/core';
 import { Menu, MenuItem } from '../components/Menu';
 import { UserLogout } from '../components/UserLogout';
 import { FeedItemProps } from './Feed';
 import { News } from '../components/News';
+import { TweetModal } from './Tweet';
 
 type LayoutProps = {
   user: FeedItemProps;
+  tweets: FeedItemProps[] | undefined;
+  timelineKey: string;
 };
 
 export function Layout(props: PropsWithChildren<LayoutProps>) {
@@ -55,10 +58,12 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
               text='More'
               link='/'
             />
-            <Button variantColor='blue' variant='solid' marginTop={10}>
-              Tweet
-            </Button>
           </Menu>
+          <TweetModal
+            user={props.user}
+            tweets={props.tweets}
+            timelineKey={props.timelineKey}
+          />
           <Box pos='fixed' bottom={0} alignSelf='center'>
             <UserLogout user={props.user} />
           </Box>

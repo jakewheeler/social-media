@@ -14,22 +14,15 @@ import { Users } from '../interfaces/users';
 import { createUser } from '../pages/index';
 import { Tweet } from '../components/Tweet';
 
-async function fetchTweets(): Promise<FeedItemProps[]> {
-  const url = 'https://randomuser.me/api/?results=35';
-  let users = await axios.get<Users>(url);
-  return Promise.all(users.data.results.map((tweet) => createUser(tweet)));
-}
 type FeedProps = {
   user: FeedItemProps;
+  tweets: FeedItemProps[] | undefined;
+  timelineKey: string;
+  error: Error | undefined;
 };
 
-export function Feed({ user }: FeedProps) {
-  let { data: tweets, error: feedError } = useSWR<FeedItemProps[], Error>(
-    'tweets',
-    fetchTweets
-  );
-
-  if (feedError)
+export function Feed({ user, tweets, timelineKey, error }: FeedProps) {
+  if (error)
     return (
       <Box textAlign='center'>
         <Text>Failed to load feed</Text>
@@ -45,7 +38,7 @@ export function Feed({ user }: FeedProps) {
 
   return (
     <>
-      <Tweet user={user} tweets={tweets} feedKey={'tweets'} />
+      <Tweet user={user} tweets={tweets} timelineKey={timelineKey} />
       <List minWidth={'100%'}>
         {tweets.map((tweet) => (
           <FeedItem

@@ -1,12 +1,29 @@
-import { Textarea, Flex, Stack, Avatar, Button, Box } from '@chakra-ui/core';
-import { ChangeEvent, Dispatch, SetStateAction, useReducer } from 'react';
+import {
+  Textarea,
+  Flex,
+  Stack,
+  Avatar,
+  Button,
+  Box,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  Divider,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+} from '@chakra-ui/core';
+import { ChangeEvent, useReducer } from 'react';
 import { FeedItemProps } from '../components/Feed';
 import { mutate } from 'swr';
 
 type TweetProps = {
   user: FeedItemProps;
-  tweets: FeedItemProps[];
-  feedKey: string;
+  tweets: FeedItemProps[] | undefined;
+  timelineKey: string;
+  closeModal?: Function | null;
 };
 
 type TweetState = {
@@ -48,7 +65,12 @@ function tweetReducer(state: TweetState, action: TweetReducerAction) {
   }
 }
 
-export function Tweet({ user, tweets, feedKey }: TweetProps) {
+export function Tweet({
+  user,
+  tweets,
+  timelineKey,
+  closeModal = null,
+}: TweetProps) {
   const [state, dispatch] = useReducer(tweetReducer, tweetState);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -61,12 +83,13 @@ export function Tweet({ user, tweets, feedKey }: TweetProps) {
     if (!state.btnIsDisabled) {
       // submit and clear
       let newTweets = addNewTweet();
-      mutate(feedKey, newTweets, false);
+      mutate(timelineKey, newTweets, false);
       dispatch({ type: 'SUBMIT_TWEET' });
     }
   };
 
   const addNewTweet = () => {
+    if (!tweets) return;
     let newTweets = [...tweets];
     let newTweet: FeedItemProps = {
       ...user,
@@ -107,11 +130,48 @@ export function Tweet({ user, tweets, feedKey }: TweetProps) {
           variant='solid'
           alignSelf='flex-end'
           isDisabled={state.btnIsDisabled}
-          onClick={submitTweet}
+          onClick={() => {
+            submitTweet();
+            if (closeModal) closeModal();
+          }}
         >
           Tweet
         </Button>
       </Stack>
     </Flex>
+  );
+}
+
+export function TweetModal({ user, tweets, timelineKey }: TweetProps) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  return (
+    <>
+      <Button
+        onClick={onOpen}
+        variantColor='blue'
+        variant='solid'
+        marginTop={10}
+      >
+        Tweet
+      </Button>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader color='white' backgroundColor='#243447'>
+            Tweet
+          </ModalHeader>
+          <ModalCloseButton color='white' />
+          <ModalBody backgroundColor='#243447'>
+            <Tweet
+              user={user}
+              tweets={tweets}
+              timelineKey={timelineKey}
+              closeModal={onClose}
+            />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }
