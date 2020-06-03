@@ -18,7 +18,7 @@ export function News({ children }: NewsProps) {
     <Stack
       marginTop={10}
       marginLeft={10}
-      display={['none', 'block', 'block', 'block']}
+      display={['none', 'none', 'block', 'block']}
     >
       <Box color='white'>What's happening</Box>
       {data.map((id) => (

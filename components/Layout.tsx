@@ -13,7 +13,11 @@ type LayoutProps = {
 export function Layout(props: PropsWithChildren<LayoutProps>) {
   return (
     <Flex direction='row' justifyContent='center'>
-      <Stack direction='column'>
+      <Stack
+        direction='column'
+        display={['none', 'block', 'block', 'block']}
+        marginLeft={3}
+      >
         <Box marginRight={55}>
           <Menu>
             <MenuItem
@@ -71,7 +75,7 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
               Social Media
             </Heading>
           </header>
-          <main style={{ minWidth: 900 }}>{props.children}</main>
+          <main style={{ minWidth: '100%' }}>{props.children}</main>
         </Box>
       </Flex>
       <News />
