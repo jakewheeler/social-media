@@ -8,10 +8,6 @@ import {
   Flex,
   Spinner,
 } from '@chakra-ui/core';
-import axios from 'axios';
-import useSWR from 'swr';
-import { Users } from '../interfaces/users';
-import { createUser } from '../pages/index';
 import { Tweet } from '../components/Tweet';
 
 type FeedProps = {

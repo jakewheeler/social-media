@@ -46,7 +46,7 @@ export default function Index() {
 }
 
 async function fetchQuote(): Promise<string> {
-  let url = 'https://api.kanye.rest';
+  let url = `https://api.kanye.rest?nocache=${Math.random()}`;
   let req = await axios.get<KanyeQuote>(url);
   return req.data.quote;
 }
