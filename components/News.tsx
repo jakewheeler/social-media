@@ -1,11 +1,8 @@
-import { Stack, Box, Spinner, Link } from '@chakra-ui/core';
+import { Stack, Box, Spinner, Link, Text, Heading } from '@chakra-ui/core';
 import useSWR from 'swr';
 import colors from '../utils/colors';
 
-type NewsProps = {
-  children?: any;
-};
-export function News({ children }: NewsProps) {
+export function News() {
   const { data, error } = useSWR<number[], Error>(
     'https://hacker-news.firebaseio.com/v0/beststories.json?print=pretty'
   );
@@ -21,7 +18,9 @@ export function News({ children }: NewsProps) {
       marginLeft={10}
       display={['none', 'none', 'block', 'block']}
     >
-      <Box color={colors.text}>What's happening</Box>
+      <Heading as='h1' size='lg' color={colors.text}>
+        What's happening
+      </Heading>
       {data.map((id) => (
         <NewsItem key={id} storyId={id} />
       ))}
@@ -56,6 +55,7 @@ export function NewsItem({ storyId }: NewsItemProps) {
     <Box
       maxW={200}
       minH={10}
+      rounded='lg'
       border='solid'
       padding={5}
       color={colors.text}

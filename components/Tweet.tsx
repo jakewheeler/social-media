@@ -104,7 +104,7 @@ export function Tweet({
     <Flex
       direction='column'
       border={1}
-      borderColor='grey'
+      borderColor={colors.border}
       borderStyle='solid'
       boxSizing='content-box'
     >
@@ -113,7 +113,7 @@ export function Tweet({
         <Textarea
           placeholder="What's happening?"
           resize='none'
-          bg='#243447'
+          bg={colors.bg}
           color={colors.text}
           onChange={handleInputChange}
           value={state.tweetContent}
@@ -153,7 +153,7 @@ export function TweetModal({ user, tweets, timelineKey }: TweetProps) {
     <>
       <Button
         onClick={onOpen}
-        variantColor='blue'
+        variantColor={colors.button}
         variant='solid'
         marginTop={10}
       >
