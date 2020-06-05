@@ -2,6 +2,7 @@ import { ThemeProvider, CSSReset } from '@chakra-ui/core';
 import { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
 import axios from 'axios';
+import colors from '../utils/colors';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -16,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
         <style jsx global>{`
           html {
-            background: #243447;
+            background: ${colors.bg};
             font-family: Helvetica;
           }
         `}</style>

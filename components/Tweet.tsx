@@ -163,11 +163,11 @@ export function TweetModal({ user, tweets, timelineKey }: TweetProps) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader color={colors.text} backgroundColor='#243447'>
+          <ModalHeader color={colors.text} backgroundColor={colors.bg}>
             Tweet
           </ModalHeader>
           <ModalCloseButton color={colors.text} />
-          <ModalBody backgroundColor='#243447'>
+          <ModalBody backgroundColor={colors.bg}>
             <Tweet
               user={user}
               tweets={tweets}
