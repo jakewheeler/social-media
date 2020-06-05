@@ -1,5 +1,6 @@
 import { Box, Stack, Avatar, Button } from '@chakra-ui/core';
 import { FeedItemProps } from '../components/Feed';
+import colors from '../utils/colors';
 
 interface UserLogoutProps {
   user: FeedItemProps;
@@ -11,8 +12,8 @@ export function UserLogout({ user }: UserLogoutProps) {
       <Stack isInline>
         <Avatar src={user.avatarSrc} />
         <Stack>
-          <Box color='white'>{user.name}</Box>
-          <Box color='white'>{user.handle}</Box>
+          <Box color={colors.text}>{user.name}</Box>
+          <Box color={colors.text}>{user.handle}</Box>
         </Stack>
       </Stack>
       <Button onClick={() => alert('Fake logout')} variantColor='blue'>

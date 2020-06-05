@@ -9,6 +9,7 @@ import {
   Spinner,
 } from '@chakra-ui/core';
 import { Tweet } from '../components/Tweet';
+import colors from '../utils/colors';
 
 type FeedProps = {
   user: FeedItemProps;
@@ -66,7 +67,7 @@ function FeedItem({ avatarSrc, name, handle, content }: FeedItemProps) {
         boxSizing='content-box'
         borderWidth='1px'
         borderStyle='solid'
-        borderColor='grey'
+        borderColor={colors.border}
         minWidth='100%'
         minHeight={100}
       >
@@ -74,10 +75,10 @@ function FeedItem({ avatarSrc, name, handle, content }: FeedItemProps) {
           <Avatar name={name} src={avatarSrc} />
           <Stack spacing={0} marginLeft={5}>
             <Stack isInline spacing={3}>
-              <Text color='white'>{name}</Text>
-              <Text color='grey'>{handle}</Text>
+              <Text color={colors.text}>{name}</Text>
+              <Text color={colors.border}>{handle}</Text>
             </Stack>
-            <Text color='white' marginTop={3}>
+            <Text color={colors.text} marginTop={3}>
               {content}
             </Text>
           </Stack>

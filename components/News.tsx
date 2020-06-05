@@ -1,5 +1,6 @@
 import { Stack, Box, Spinner, Link } from '@chakra-ui/core';
 import useSWR from 'swr';
+import colors from '../utils/colors';
 
 type NewsProps = {
   children?: any;
@@ -20,7 +21,7 @@ export function News({ children }: NewsProps) {
       marginLeft={10}
       display={['none', 'none', 'block', 'block']}
     >
-      <Box color='white'>What's happening</Box>
+      <Box color={colors.text}>What's happening</Box>
       {data.map((id) => (
         <NewsItem key={id} storyId={id} />
       ))}
@@ -57,7 +58,7 @@ export function NewsItem({ storyId }: NewsItemProps) {
       minH={10}
       border='solid'
       padding={5}
-      color='white'
+      color={colors.text}
       marginTop={2}
     >
       <Link href={data.url} isExternal>

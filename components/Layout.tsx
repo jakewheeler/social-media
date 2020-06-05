@@ -6,6 +6,7 @@ import { UserLogout } from '../components/UserLogout';
 import { FeedItemProps } from './Feed';
 import { News } from '../components/News';
 import { TweetModal } from './Tweet';
+import colors from '../utils/colors';
 
 type LayoutProps = {
   user: FeedItemProps;
@@ -44,7 +45,7 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
             <link rel='icon' href='/favicon.ico' />
           </Head>
           <header>
-            <Heading as='h2' color='white'>
+            <Heading as='h2' color={colors.text}>
               Social Media
             </Heading>
           </header>

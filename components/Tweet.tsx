@@ -18,6 +18,7 @@ import {
 import { ChangeEvent, useReducer } from 'react';
 import { FeedItemProps } from '../components/Feed';
 import { mutate } from 'swr';
+import colors from '../utils/colors';
 
 type TweetProps = {
   user: FeedItemProps;
@@ -113,14 +114,18 @@ export function Tweet({
           placeholder="What's happening?"
           resize='none'
           bg='#243447'
-          color='white'
+          color={colors.text}
           onChange={handleInputChange}
           value={state.tweetContent}
         ></Textarea>
       </Stack>
       <Stack margin={2}>
         <Box
-          color={state.charCount > 180 ? 'tomato' : 'white'}
+          color={
+            state.charCount > 180
+              ? colors.tweetCounterBad
+              : colors.tweetCounterOk
+          }
           alignSelf='flex-end'
         >
           {state.charCount}
@@ -158,10 +163,10 @@ export function TweetModal({ user, tweets, timelineKey }: TweetProps) {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader color='white' backgroundColor='#243447'>
+          <ModalHeader color={colors.text} backgroundColor='#243447'>
             Tweet
           </ModalHeader>
-          <ModalCloseButton color='white' />
+          <ModalCloseButton color={colors.text} />
           <ModalBody backgroundColor='#243447'>
             <Tweet
               user={user}
