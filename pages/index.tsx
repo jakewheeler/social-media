@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { Users, User } from '../interfaces/users';
 import useSWR from 'swr';
 import axios from 'axios';
+import Router from 'next/router';
 
 const TIMELINE_KEY = 'tweets';
 
@@ -22,7 +23,7 @@ export default function Index() {
   );
 
   useEffect(() => {
-    if (seed !== '' && !seed) return;
+    if (seed !== '' && !seed) Router.push('/seed');
 
     async function getSeed() {
       let seed = localStorage.getItem('seed');

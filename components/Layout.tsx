@@ -33,7 +33,7 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
             tweets={props.tweets}
             timelineKey={props.timelineKey}
           />
-          <Box pos='fixed' bottom={0} left={0}>
+          <Box pos='fixed' bottom={0}>
             <UserLogout user={props.user} />
           </Box>
         </Box>
