@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { PropsWithChildren } from 'react';
-import { Heading, Box, Flex, Stack, Button } from '@chakra-ui/core';
+import { Heading, Box, Flex, Stack } from '@chakra-ui/core';
 import { Menu, MenuItem } from '../components/Menu';
 import { UserLogout } from '../components/UserLogout';
 import { FeedItemProps } from './Feed';
@@ -33,7 +33,7 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
             tweets={props.tweets}
             timelineKey={props.timelineKey}
           />
-          <Box pos='fixed' bottom={0} alignSelf='center'>
+          <Box pos='fixed' bottom={0} left={0}>
             <UserLogout user={props.user} />
           </Box>
         </Box>

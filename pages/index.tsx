@@ -9,8 +9,11 @@ import axios from 'axios';
 const TIMELINE_KEY = 'tweets';
 
 export default function Index() {
+  const [seed, setSeed] = useState<string | null>('');
+  const [appUser, setAppUser] = useState<FeedItemProps>();
+
   let { data: user, error: userError } = useSWR<Users, Error>(
-    'https://randomuser.me/api/?seed=mytestuseridk'
+    `https://randomuser.me/api/?seed=${seed}`
   );
 
   let { data: tweets, error: feedError } = useSWR<FeedItemProps[], Error>(
@@ -18,16 +21,24 @@ export default function Index() {
     fetchTweets
   );
 
-  const [appUser, setAppUser] = useState<FeedItemProps>();
+  useEffect(() => {
+    if (seed !== '' && !seed) return;
+
+    async function getSeed() {
+      let seed = localStorage.getItem('seed');
+      setSeed(seed);
+    }
+    getSeed();
+  }, [seed, setSeed]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!seed || !user) return;
     async function fetchUser() {
       let appUser = await createUser(user!.results[0]);
       setAppUser(appUser);
     }
     fetchUser();
-  }, [user]);
+  }, [seed, user]);
 
   if (!appUser) return <Box></Box>;
 
