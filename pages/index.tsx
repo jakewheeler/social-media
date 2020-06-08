@@ -1,5 +1,5 @@
 import { Layout } from '../components/Layout';
-import { Box } from '@chakra-ui/core';
+import { Box, Spinner } from '@chakra-ui/core';
 import { Feed, FeedItemProps } from '../components/Feed';
 import { useState, useEffect } from 'react';
 import { Users, User } from '../interfaces/users';
@@ -13,13 +13,14 @@ export default function Index() {
   const [seed, setSeed] = useState<string | null>('');
   const [appUser, setAppUser] = useState<FeedItemProps>();
 
+  // using a seed always returns an array of Users
   let { data: user, error: userError } = useSWR<Users, Error>(
     `https://randomuser.me/api/?seed=${seed}`
   );
 
   let { data: tweets, error: feedError } = useSWR<FeedItemProps[], Error>(
     'tweets',
-    fetchTweets
+    fetchInitialFeedContent
   );
 
   useEffect(() => {
@@ -35,13 +36,13 @@ export default function Index() {
   useEffect(() => {
     if (!seed || !user) return;
     async function fetchUser() {
-      let appUser = await createUser(user!.results[0]);
+      let appUser = await createFeedItem(user!.results[0]);
       setAppUser(appUser);
     }
     fetchUser();
   }, [seed, user]);
 
-  if (!appUser) return <Box></Box>;
+  if (!appUser || !seed) return <Spinner aria-busy='true'></Spinner>;
 
   return (
     <Box>
@@ -63,17 +64,23 @@ async function fetchQuote(): Promise<string> {
   return req.data.quote;
 }
 
-async function fetchTweets(): Promise<FeedItemProps[]> {
+async function fetchUsers(): Promise<Users> {
   const url = 'https://randomuser.me/api/?results=35';
   let users = await axios.get<Users>(url);
-  return Promise.all(users.data.results.map((tweet) => createUser(tweet)));
+  console.log(users);
+  return users.data;
+}
+
+async function fetchInitialFeedContent(): Promise<FeedItemProps[]> {
+  let users = await fetchUsers();
+  return Promise.all(users.results.map((feedItem) => createFeedItem(feedItem)));
 }
 
 interface KanyeQuote {
   quote: string;
 }
 
-export async function createUser(person: User): Promise<FeedItemProps> {
+export async function createFeedItem(person: User): Promise<FeedItemProps> {
   return {
     avatarSrc: person.picture.thumbnail,
     content: await fetchQuote(),

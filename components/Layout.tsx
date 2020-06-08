@@ -25,7 +25,7 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
             <MenuItem icon='info' text='Notifications' link='/' />
             <MenuItem icon='email' text='Messages' link='/' />
             <MenuItem icon='plus-square' text='Lists' link='/' />
-            <MenuItem icon='view' text='Profile' link='/' />
+            <MenuItem icon='view' text='Profile' link='/profile' />
             <MenuItem icon='question' text='More' link='/' />
           </Menu>
           <TweetModal
