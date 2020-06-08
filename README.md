@@ -8,7 +8,7 @@ Social Media does not have accounts. Instead, the user provides their own `seed`
 
 ## Planned Features
 
-Check out the project issues to see what I have planned. I'm continuously updating and changing things at the moment!
+This project is very much a work in progress. Check out the project issues to see what I have planned. I'm continuously updating and changing things at the moment!
 
 ## Tech Stack
 
