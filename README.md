@@ -1,30 +1,19 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app).
+# Social Media
 
-## Getting Started
+Social Media is an application meant to resemble Twitter's user interface and features. At this point in time, Social Media is a client-side rendered app that relies on being on a few key APIs to drive the experience.
 
-First, run the development server:
+## How it Works
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Social Media does not have accounts. Instead, the user provides their own `seed` which will be used to determine who they login as. Upon login, users will see their dynamically generated feed and will be able to post messages. When the user logs out, this information will disappear even if they try to use the same seed again.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Planned Features
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Check out the project issues to see what I have planned. I'm continuously updating and changing things at the moment!
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js
+- Chakra UI
+- SWR
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/zeit/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Continuously deployed on [Vercel](https://vercel.com/) at [https://social-media.jakewheeler.now.sh/](https://social-media.jakewheeler.now.sh).
