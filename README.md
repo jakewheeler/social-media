@@ -1,6 +1,6 @@
 # Social Media
 
-Social Media is an application meant to resemble Twitter's user interface and features. At this point in time, Social Media is a client-side rendered app that relies on being on a few key APIs to drive the experience.
+Social Media is an application meant to resemble Twitter's user interface and features. At this point in time, Social Media is a client-side rendered app that relies on a few key APIs to to provide the user a semi-randomized, social media-like simulation.
 
 ## How it Works
 
