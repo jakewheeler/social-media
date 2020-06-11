@@ -19,7 +19,7 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
     <Flex direction='row' justifyContent='center'>
       <Stack direction='column' display={['none', 'block']} marginLeft={3}>
         <Box marginRight={55}>
-          <Menu/>
+          <Menu />
           <TweetModal
             user={props.user}
             tweets={props.tweets}
@@ -41,7 +41,7 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
               Social Media
             </Heading>
           </header>
-          <main style={{ minWidth: '100%' }}>{props.children}</main>
+          <main>{props.children}</main>
         </Box>
       </Flex>
       <News />

@@ -72,7 +72,7 @@ function FeedItem({ avatarSrc, name, handle, content }: FeedItemProps) {
         minWidth='100%'
         minHeight={100}
       >
-        <Flex margin={2}>
+        <Flex padding={5}>
           <Avatar name={name} src={avatarSrc} />
           <Stack spacing={0} marginLeft={5}>
             <Stack isInline spacing={3}>
