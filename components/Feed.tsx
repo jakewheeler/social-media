@@ -8,8 +8,11 @@ import {
   Flex,
   Spinner,
 } from '@chakra-ui/core';
-import { Tweet } from '../components/Tweet';
+import { Tweet, addNewTweet } from '../components/Tweet';
 import colors from '../utils/colors';
+import { fetchUser, createFeedItem, fetchQuote } from '../pages/index';
+import { useEffect } from 'react';
+import { mutate } from 'swr';
 
 type FeedProps = {
   user: FeedItemProps;
@@ -32,6 +35,17 @@ export function Feed({ user, tweets, timelineKey, error }: FeedProps) {
         <Spinner color={colors.text}></Spinner>
       </Box>
     );
+
+  useEffect(() => {
+    let id = setInterval(async () => {
+      let user = await createFeedItem(await fetchUser());
+      let message = await fetchQuote();
+      let newTweets = addNewTweet(user, message, tweets);
+      mutate(timelineKey, newTweets, false);
+    }, 60000);
+
+    return () => clearInterval(id);
+  }, [tweets]);
 
   return (
     <>

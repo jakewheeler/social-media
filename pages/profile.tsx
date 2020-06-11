@@ -1,5 +1,6 @@
-import { Box } from '@chakra-ui/core';
+import { Text } from '@chakra-ui/core';
+import colors from '../utils/colors';
 
 export default function Profile() {
-  return <Box>Example stuff here!</Box>;
+  return <Text color={colors.text}>Example stuff here!</Text>;
 }

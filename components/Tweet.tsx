@@ -66,6 +66,21 @@ function tweetReducer(state: TweetState, action: TweetReducerAction) {
   }
 }
 
+export function addNewTweet(
+  user: FeedItemProps,
+  message: string,
+  tweets: FeedItemProps[] | undefined
+) {
+  if (!tweets) return;
+  let newTweets = [...tweets];
+  let newTweet: FeedItemProps = {
+    ...user,
+    content: message,
+  };
+  newTweets.unshift(newTweet);
+  return newTweets;
+}
+
 export function Tweet({
   user,
   tweets,
@@ -83,21 +98,11 @@ export function Tweet({
   const submitTweet = () => {
     if (!state.btnIsDisabled) {
       // submit and clear
-      let newTweets = addNewTweet();
+      // let newTweets = addNewUserTweet();
+      let newTweets = addNewTweet(user, state.tweetContent, tweets);
       mutate(timelineKey, newTweets, false);
       dispatch({ type: 'SUBMIT_TWEET' });
     }
-  };
-
-  const addNewTweet = () => {
-    if (!tweets) return;
-    let newTweets = [...tweets];
-    let newTweet: FeedItemProps = {
-      ...user,
-      content: state.tweetContent,
-    };
-    newTweets.unshift(newTweet);
-    return newTweets;
   };
 
   return (

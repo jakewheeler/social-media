@@ -58,7 +58,7 @@ export default function Index() {
   );
 }
 
-async function fetchQuote(): Promise<string> {
+export async function fetchQuote(): Promise<string> {
   let url = `https://api.kanye.rest?nocache=${Math.random()}`;
   let req = await axios.get<KanyeQuote>(url);
   return req.data.quote;
@@ -67,8 +67,11 @@ async function fetchQuote(): Promise<string> {
 async function fetchUsers(): Promise<Users> {
   const url = 'https://randomuser.me/api/?results=35';
   let users = await axios.get<Users>(url);
-  console.log(users);
   return users.data;
+}
+
+export async function fetchUser(): Promise<User> {
+  return (await fetchUsers()).results[0];
 }
 
 async function fetchInitialFeedContent(): Promise<FeedItemProps[]> {
