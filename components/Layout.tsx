@@ -19,15 +19,7 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
     <Flex direction='row' justifyContent='center'>
       <Stack direction='column' display={['none', 'block']} marginLeft={3}>
         <Box marginRight={55}>
-          <Menu>
-            <MenuItem icon='star' text='Home' link='/' />
-            <MenuItem icon='search' text='Explore' link='/' />
-            <MenuItem icon='info' text='Notifications' link='/' />
-            <MenuItem icon='email' text='Messages' link='/' />
-            <MenuItem icon='plus-square' text='Lists' link='/' />
-            <MenuItem icon='view' text='Profile' link='/profile' />
-            <MenuItem icon='question' text='More' link='/' />
-          </Menu>
+          <Menu/>
           <TweetModal
             user={props.user}
             tweets={props.tweets}

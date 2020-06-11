@@ -8,7 +8,7 @@ export function News() {
   );
 
   if (error) return <Box>Failed to load stories</Box>;
-  if (!data) return <Spinner></Spinner>;
+  if (!data) return <Spinner color={colors.text}></Spinner>;
 
   data.splice(3);
 
@@ -49,7 +49,7 @@ export function NewsItem({ storyId }: NewsItemProps) {
     `https://hacker-news.firebaseio.com/v0/item/${storyId}.json?print=pretty`
   );
   if (error) return <Box>Failed to load stories</Box>;
-  if (!data) return <Spinner></Spinner>;
+  if (!data) return <Spinner color={colors.text}></Spinner>;
 
   return (
     <Box

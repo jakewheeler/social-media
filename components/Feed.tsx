@@ -22,21 +22,21 @@ export function Feed({ user, tweets, timelineKey, error }: FeedProps) {
   if (error)
     return (
       <Box textAlign='center'>
-        <Text>Failed to load feed</Text>
+        <Text color={colors.text}>Failed to load feed</Text>
       </Box>
     );
 
   if (!tweets)
     return (
       <Box textAlign='center'>
-        <Spinner></Spinner>
+        <Spinner color={colors.text}></Spinner>
       </Box>
     );
 
   return (
     <>
       <Tweet user={user} tweets={tweets} timelineKey={timelineKey} />
-      <List minWidth={'100%'}>
+      <List minWidth={'100%'} borderBottom={`1px solid ${colors.border}`}>
         {tweets.map((tweet) => (
           <FeedItem
             key={`${tweet.uuid}-${Math.random()}`}
@@ -62,11 +62,12 @@ export type FeedItemProps = {
 
 function FeedItem({ avatarSrc, name, handle, content }: FeedItemProps) {
   return (
-    <ListItem marginTop={1} overflowWrap='anywhere'>
+    <ListItem overflowWrap='anywhere'>
       <Box
         boxSizing='content-box'
-        borderWidth='1px'
-        borderStyle='solid'
+        borderTop='1px solid'
+        borderLeft='1px solid'
+        borderRight='1px solid'
         borderColor={colors.border}
         minWidth='100%'
         minHeight={100}
