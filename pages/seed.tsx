@@ -9,11 +9,12 @@ import {
 } from '@chakra-ui/core';
 import colors from '../utils/colors';
 import Typist from 'react-typist';
-import { useState, ChangeEvent, KeyboardEvent } from 'react';
+import { ChangeEvent, KeyboardEvent } from 'react';
 import Router from 'next/router';
+import { useSeed } from '../utils/hooks';
 
 export default function Seed() {
-  const [seed, setSeed] = useState<string>();
+  const { seed, setSeed } = useSeed();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -24,6 +25,7 @@ export default function Seed() {
   const setUserSeed = () => {
     if (seed) {
       localStorage.setItem('seed', seed);
+      setSeed(seed);
       Router.push('/');
     } else {
       console.error('Must select a seed');
