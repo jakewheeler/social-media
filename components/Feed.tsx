@@ -11,17 +11,31 @@ import {
 import { Tweet, addNewTweet } from '../components/Tweet';
 import colors from '../utils/colors';
 import { fetchUser, createFeedItem, fetchQuote } from '../pages/index';
-import { useEffect } from 'react';
-import { mutate } from 'swr';
+import { useEffect, useState } from 'react';
+import { TIMELINE_KEY } from '../utils/constants';
+import { useFeed, useAppUser, useSeed } from '../utils/hooks';
 
-type FeedProps = {
-  user: FeedItemProps;
-  tweets: FeedItemProps[] | undefined;
-  timelineKey: string;
-  error: Error | undefined;
-};
+export function Feed() {
+  let { seed } = useSeed();
 
-export function Feed({ user, tweets, timelineKey, error }: FeedProps) {
+  let { user } = useAppUser();
+
+  let { tweets: allTweetData, error, mutate } = useFeed();
+
+  let [tweets, setTweets] = useState(allTweetData);
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      let tweetUser = await createFeedItem(await fetchUser());
+      let message = await fetchQuote();
+      let newTweets = addNewTweet(tweetUser, message, tweets);
+      setTweets(newTweets);
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [tweets]);
+
+  if (!user || !seed) return <Spinner color='white' aria-busy='true'></Spinner>;
+
   if (error)
     return (
       <Box textAlign='center'>
@@ -36,20 +50,9 @@ export function Feed({ user, tweets, timelineKey, error }: FeedProps) {
       </Box>
     );
 
-  useEffect(() => {
-    let id = setInterval(async () => {
-      let user = await createFeedItem(await fetchUser());
-      let message = await fetchQuote();
-      let newTweets = addNewTweet(user, message, tweets);
-      mutate(timelineKey, newTweets, false);
-    }, 60000);
-
-    return () => clearInterval(id);
-  }, [tweets]);
-
   return (
     <>
-      <Tweet user={user} tweets={tweets} timelineKey={timelineKey} />
+      <Tweet user={user} tweets={tweets} timelineKey={TIMELINE_KEY} />
       <List minWidth={'100%'} borderBottom={`1px solid ${colors.border}`}>
         {tweets.map((tweet) => (
           <FeedItem
