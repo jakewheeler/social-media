@@ -1,18 +1,19 @@
-import { Box, Stack, Avatar, Button } from '@chakra-ui/core';
+import { Box, Stack, Avatar, Button, Spinner } from '@chakra-ui/core';
 import { FeedItemProps } from '../components/Feed';
 import colors from '../utils/colors';
 import Router from 'next/router';
-
-interface UserLogoutProps {
-  user: FeedItemProps;
-}
+import { useAppUser } from '../utils/hooks';
 
 function deleteLocalStorage() {
   localStorage.removeItem('seed');
   Router.push('/seed');
 }
 
-export function UserLogout({ user }: UserLogoutProps) {
+export function UserLogout() {
+  let { user } = useAppUser();
+
+  if (!user) return <Spinner color='white'></Spinner>;
+
   return (
     <Stack marginBottom={2} justifyContent='center'>
       <Stack isInline>

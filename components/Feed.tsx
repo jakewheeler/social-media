@@ -12,29 +12,22 @@ import { Tweet, addNewTweet } from '../components/Tweet';
 import colors from '../utils/colors';
 import { fetchUser, createFeedItem, fetchQuote } from '../pages/index';
 import { useEffect, useState } from 'react';
-import { TIMELINE_KEY } from '../utils/constants';
 import { useFeed, useAppUser, useSeed } from '../utils/hooks';
 
 export function Feed() {
-  let { seed } = useSeed();
+  let { tweets, error, mutate } = useFeed();
 
-  let { user } = useAppUser();
-
-  let { tweets: allTweetData, error, mutate } = useFeed();
-
-  let [tweets, setTweets] = useState(allTweetData);
+  // let [tweets, setTweets] = useState(allTweetData);
 
   useEffect(() => {
     const interval = setInterval(async () => {
       let tweetUser = await createFeedItem(await fetchUser());
       let message = await fetchQuote();
       let newTweets = addNewTweet(tweetUser, message, tweets);
-      setTweets(newTweets);
-    }, 60000);
+      mutate(newTweets, false);
+    }, 10000);
     return () => clearInterval(interval);
-  }, [tweets]);
-
-  if (!user || !seed) return <Spinner color='white' aria-busy='true'></Spinner>;
+  }, [tweets, mutate]);
 
   if (error)
     return (
@@ -52,7 +45,7 @@ export function Feed() {
 
   return (
     <>
-      <Tweet user={user} tweets={tweets} timelineKey={TIMELINE_KEY} />
+      <Tweet />
       <List minWidth={'100%'} borderBottom={`1px solid ${colors.border}`}>
         {tweets.map((tweet) => (
           <FeedItem

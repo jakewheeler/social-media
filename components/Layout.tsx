@@ -15,22 +15,14 @@ type LayoutProps = {
 };
 
 export function Layout({ children }: LayoutProps) {
-  let { seed } = useSeed();
-
-  let { user } = useAppUser();
-
-  let { tweets, error } = useFeed();
-
-  if (!user || !seed) return <Spinner color='white' aria-busy='true'></Spinner>;
-
   return (
     <Flex direction='row' justifyContent='center'>
       <Stack direction='column' display={['none', 'block']} marginLeft={3}>
         <Box marginRight={55}>
           <Menu />
-          <TweetModal user={user} tweets={tweets} timelineKey={TIMELINE_KEY} />
+          <TweetModal />
           <Box pos='fixed' bottom={0}>
-            <UserLogout user={user} />
+            <UserLogout/>
           </Box>
         </Box>
       </Stack>
