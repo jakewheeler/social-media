@@ -11,7 +11,9 @@ export default function Index() {
   return (
     <Box>
       <Layout>
-        <Feed />
+        <Box marginTop={10}>
+          <Feed />
+        </Box>
       </Layout>
     </Box>
   );

@@ -7,9 +7,6 @@ import { FeedItemProps } from './Feed';
 import { News } from '../components/News';
 import { TweetModal } from './Tweet';
 import colors from '../utils/colors';
-import { useSeed, useAppUser, useFeed } from '../utils/hooks';
-import { TIMELINE_KEY } from '../utils/constants';
-
 type LayoutProps = {
   children: ReactNode;
 };
@@ -22,7 +19,7 @@ export function Layout({ children }: LayoutProps) {
           <Menu />
           <TweetModal />
           <Box pos='fixed' bottom={0}>
-            <UserLogout/>
+            <UserLogout />
           </Box>
         </Box>
       </Stack>
@@ -32,11 +29,6 @@ export function Layout({ children }: LayoutProps) {
             <title>Social Media</title>
             <link rel='icon' href='/favicon.ico' />
           </Head>
-          <header>
-            <Heading as='h2' color={colors.text}>
-              Social Media
-            </Heading>
-          </header>
           <main>{children}</main>
         </Box>
       </Flex>
