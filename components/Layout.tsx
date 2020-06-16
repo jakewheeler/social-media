@@ -1,12 +1,10 @@
 import Head from 'next/head';
 import { ReactNode } from 'react';
-import { Heading, Box, Flex, Stack, Spinner } from '@chakra-ui/core';
-import { Menu, MenuItem } from '../components/Menu';
+import { Box, Flex, Stack } from '@chakra-ui/core';
+import { Menu } from '../components/Menu';
 import { UserLogout } from '../components/UserLogout';
-import { FeedItemProps } from './Feed';
 import { News } from '../components/News';
 import { TweetModal } from './Tweet';
-import colors from '../utils/colors';
 type LayoutProps = {
   children: ReactNode;
 };

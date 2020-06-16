@@ -1,12 +1,4 @@
-import {
-  Box,
-  Flex,
-  Input,
-  Stack,
-  Button,
-  Text,
-  Heading,
-} from '@chakra-ui/core';
+import { Flex, Input, Stack, Button, Text, Heading } from '@chakra-ui/core';
 import colors from '../utils/colors';
 import Typist from 'react-typist';
 import { ChangeEvent, KeyboardEvent } from 'react';

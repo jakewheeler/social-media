@@ -1,5 +1,4 @@
 import { Box, Stack, Avatar, Button, Spinner } from '@chakra-ui/core';
-import { FeedItemProps } from '../components/Feed';
 import colors from '../utils/colors';
 import Router from 'next/router';
 import { useAppUser } from '../utils/hooks';

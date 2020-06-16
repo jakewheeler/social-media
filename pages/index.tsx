@@ -1,11 +1,8 @@
 import { Layout } from '../components/Layout';
-import { Box, Spinner } from '@chakra-ui/core';
+import { Box } from '@chakra-ui/core';
 import { Feed, FeedItemProps } from '../components/Feed';
 import { Users, User } from '../interfaces/users';
 import axios from 'axios';
-import { useFeed, useSeed, useAppUser } from '../utils/hooks';
-
-import { TIMELINE_KEY } from '../utils/constants';
 
 export default function Index() {
   return (

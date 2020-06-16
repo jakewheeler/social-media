@@ -1,4 +1,4 @@
-import { Stack, Box, Spinner, Link, Text, Heading } from '@chakra-ui/core';
+import { Stack, Box, Spinner, Link, Heading } from '@chakra-ui/core';
 import useSWR from 'swr';
 import colors from '../utils/colors';
 
