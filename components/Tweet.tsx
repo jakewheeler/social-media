@@ -14,9 +14,10 @@ import {
   useDisclosure,
 } from '@chakra-ui/core';
 import { ChangeEvent, useReducer } from 'react';
-import { FeedItemProps } from '../components/Feed';
+import { FeedItemProps } from '../types';
 import colors from '../utils/colors';
-import { useAppUser, fetchInitialFeedContent } from '../utils/hooks';
+import { fetchInitialFeedContent } from '../utils/helpers';
+import { useAppUser } from '../utils/hooks';
 import useSWR from 'swr';
 import { TIMELINE_KEY } from '../utils/constants';
 

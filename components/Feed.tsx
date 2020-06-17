@@ -10,22 +10,23 @@ import {
 } from '@chakra-ui/core';
 import { Tweet, addNewTweet } from '../components/Tweet';
 import colors from '../utils/colors';
-import { fetchUser, createFeedItem, fetchQuote } from '../pages/index';
+import {
+  fetchUser,
+  createFeedItem,
+  fetchQuote,
+  fetchInitialFeedContent,
+} from '../utils/helpers';
 import { useEffect } from 'react';
 import useSWR from 'swr';
 import { TIMELINE_KEY } from '../utils/constants';
-import { fetchInitialFeedContent } from '../utils/hooks';
+import { FeedItemProps } from '../types';
 
 export function Feed() {
-  // let { tweets, error, mutate } = useFeed();
   let { data: tweets, error, mutate } = useSWR<FeedItemProps[], Error>(
     TIMELINE_KEY,
     fetchInitialFeedContent,
     { revalidateOnFocus: false }
   );
-  // console.log(tweets);
-
-  // let [tweets, setTweets] = useState(allTweetData);
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -69,15 +70,6 @@ export function Feed() {
     </>
   );
 }
-
-export type FeedItemProps = {
-  avatarSrc: string;
-  name: string;
-  handle: string;
-  content?: string;
-  uuid?: string;
-};
-
 function FeedItem({ avatarSrc, name, handle, content }: FeedItemProps) {
   return (
     <ListItem overflowWrap='anywhere'>

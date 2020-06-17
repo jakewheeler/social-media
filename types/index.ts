@@ -19,3 +19,10 @@ export interface Users {
   results: User[];
 }
 
+export type FeedItemProps = {
+  avatarSrc: string;
+  name: string;
+  handle: string;
+  content?: string;
+  uuid?: string;
+};
