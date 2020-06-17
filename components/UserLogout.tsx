@@ -16,7 +16,12 @@ export function UserLogout() {
           <Box color={colors.text}>{user.handle}</Box>
         </Stack>
       </Stack>
-      <Button onClick={() => console.log('log out!')} variantColor={colors.button}>
+      <Button
+        onClick={() => {
+          window.alert('goodbye!');
+        }}
+        variantColor={colors.button}
+      >
         Logout
       </Button>
     </Stack>

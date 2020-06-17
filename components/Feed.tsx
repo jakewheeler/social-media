@@ -34,7 +34,7 @@ export function Feed() {
       let message = await fetchQuote();
       let newTweets = addNewTweet(tweetUser, message, tweets);
       mutate(newTweets, false);
-    }, 10000);
+    }, 20000);
     return () => clearInterval(interval);
   }, [tweets, mutate]);
 
