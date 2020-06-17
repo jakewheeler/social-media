@@ -11,11 +11,19 @@ import {
 import { Tweet, addNewTweet } from '../components/Tweet';
 import colors from '../utils/colors';
 import { fetchUser, createFeedItem, fetchQuote } from '../pages/index';
-import { useEffect, useState } from 'react';
-import { useFeed, useAppUser, useSeed } from '../utils/hooks';
+import { useEffect } from 'react';
+import useSWR from 'swr';
+import { TIMELINE_KEY } from '../utils/constants';
+import { fetchInitialFeedContent } from '../utils/hooks';
 
 export function Feed() {
-  let { tweets, error, mutate } = useFeed();
+  // let { tweets, error, mutate } = useFeed();
+  let { data: tweets, error, mutate } = useSWR<FeedItemProps[], Error>(
+    TIMELINE_KEY,
+    fetchInitialFeedContent,
+    { revalidateOnFocus: false }
+  );
+  // console.log(tweets);
 
   // let [tweets, setTweets] = useState(allTweetData);
 

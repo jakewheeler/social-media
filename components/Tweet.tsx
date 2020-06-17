@@ -15,9 +15,9 @@ import {
 } from '@chakra-ui/core';
 import { ChangeEvent, useReducer } from 'react';
 import { FeedItemProps } from '../components/Feed';
-import { mutate } from 'swr';
 import colors from '../utils/colors';
-import { useAppUser, useFeed } from '../utils/hooks';
+import { useAppUser, fetchInitialFeedContent } from '../utils/hooks';
+import useSWR from 'swr';
 import { TIMELINE_KEY } from '../utils/constants';
 
 type TweetProps = {
@@ -83,7 +83,11 @@ export function Tweet({ closeModal = null }: TweetProps) {
   const [state, dispatch] = useReducer(tweetReducer, tweetState);
   let { user } = useAppUser();
 
-  let { tweets, error } = useFeed();
+  let { data: tweets, mutate } = useSWR<FeedItemProps[], Error>(
+    TIMELINE_KEY,
+    fetchInitialFeedContent,
+    { revalidateOnMount: false }
+  );
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -93,10 +97,8 @@ export function Tweet({ closeModal = null }: TweetProps) {
 
   const submitTweet = () => {
     if (!state.btnIsDisabled && user) {
-      // submit and clear
-      // let newTweets = addNewUserTweet();
       let newTweets = addNewTweet(user, state.tweetContent, tweets);
-      mutate(TIMELINE_KEY, newTweets, false);
+      mutate(newTweets, false);
       dispatch({ type: 'SUBMIT_TWEET' });
     }
   };

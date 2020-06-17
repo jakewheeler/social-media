@@ -10,6 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
       value={{
         fetcher: (url) => axios.get(url).then((resp) => resp.data),
         revalidateOnFocus: false,
+        dedupingInterval: 10000,
       }}
     >
       <ThemeProvider>

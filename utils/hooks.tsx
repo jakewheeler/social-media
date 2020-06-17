@@ -5,6 +5,7 @@ import { createFeedItem } from '../pages/index';
 import axios from 'axios';
 import { FeedItemProps } from '../components/Feed';
 import { User } from '../interfaces/users';
+import { TIMELINE_KEY } from './constants';
 
 export function useSeed() {
   const [seed, setSeed] = useState<string | null>(null);
@@ -17,32 +18,22 @@ export function useSeed() {
 }
 
 export function useAppUser() {
-  let { seed } = useSeed();
-
-  let [user, setUser] = useState<FeedItemProps>();
-
-  useEffect(() => {
-    async function initUser(userSeed: string) {
-      let createdUser = await createAppUser(userSeed);
-      setUser(createdUser);
-    }
-
-    if (seed) {
-      initUser(seed);
-    }
-  }, [seed, setUser]);
-
-  return { user, setUser };
-}
-
-export function useFeed() {
-  let { data: tweets, error, mutate } = useSWR<FeedItemProps[], Error>(
-    'tweets',
-    fetchInitialFeedContent
+  let { data: user, error } = useSWR<FeedItemProps, Error>('user', () =>
+    createAppUser('someSeed')
   );
 
-  return { tweets, error, mutate };
+  return { user, error };
 }
+
+// export function useFeed() {
+//   let { data: tweets, error, mutate } = useSWR<FeedItemProps[], Error>(
+//     TIMELINE_KEY,
+//     fetchInitialFeedContent,
+//     { revalidateOnFocus: false}
+//   );
+
+//   return { tweets, error, mutate };
+// }
 
 async function createAppUser(seed: string): Promise<FeedItemProps> {
   let tempUser = await fetchUserFromSeed(seed);
@@ -56,12 +47,11 @@ async function fetchUserFromSeed(seed: string): Promise<User> {
 }
 
 async function fetchUsers(): Promise<Users> {
-  const url = 'https://randomuser.me/api/?results=35';
-  let users = await axios.get<Users>(url);
+  let users = await axios.get<Users>(TIMELINE_KEY);
   return users.data;
 }
 
-async function fetchInitialFeedContent(): Promise<FeedItemProps[]> {
+export async function fetchInitialFeedContent(): Promise<FeedItemProps[]> {
   let users = await fetchUsers();
   return Promise.all(users.results.map((feedItem) => createFeedItem(feedItem)));
 }

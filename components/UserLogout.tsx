@@ -1,12 +1,6 @@
 import { Box, Stack, Avatar, Button, Spinner } from '@chakra-ui/core';
 import colors from '../utils/colors';
-import Router from 'next/router';
 import { useAppUser } from '../utils/hooks';
-
-function deleteLocalStorage() {
-  localStorage.removeItem('seed');
-  Router.push('/seed');
-}
 
 export function UserLogout() {
   let { user } = useAppUser();
@@ -22,7 +16,7 @@ export function UserLogout() {
           <Box color={colors.text}>{user.handle}</Box>
         </Stack>
       </Stack>
-      <Button onClick={deleteLocalStorage} variantColor={colors.button}>
+      <Button onClick={() => console.log('log out!')} variantColor={colors.button}>
         Logout
       </Button>
     </Stack>
