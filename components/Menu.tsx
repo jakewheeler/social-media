@@ -5,7 +5,7 @@ import colors from '../utils/colors';
 export function Menu() {
   return (
     <Stack>
-      <MenuItem icon='star' text='Home' link='/' disabled />
+      <MenuItem icon='star' text='Home' link='/' />
       <MenuItem icon='search' text='Explore' link='/' disabled />
       <MenuItem icon='info' text='Notifications' link='/' disabled />
       <MenuItem icon='email' text='Messages' link='/' disabled />

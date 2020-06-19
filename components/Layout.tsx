@@ -21,7 +21,7 @@ export function Layout({ children }: LayoutProps) {
           </Box>
         </Box>
       </Stack>
-      <Flex justifyContent='center'>
+      <Flex justifyContent='center' flexBasis={'100%'}>
         <Box maxWidth={900}>
           <Head>
             <title>Social Media</title>
