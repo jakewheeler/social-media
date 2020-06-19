@@ -11,7 +11,7 @@ type LayoutProps = {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <Flex direction='row' justifyContent='center'>
+    <Flex direction='row' justifyContent='center' margin='0 auto' maxW={1200}>
       <Stack direction='column' display={['none', 'block']} marginLeft={3}>
         <Box marginRight={55}>
           <Menu />
@@ -22,7 +22,7 @@ export function Layout({ children }: LayoutProps) {
         </Box>
       </Stack>
       <Flex justifyContent='center' flexBasis={'100%'}>
-        <Box maxWidth={900}>
+        <Box>
           <Head>
             <title>Social Media</title>
             <link rel='icon' href='/favicon.ico' />

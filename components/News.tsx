@@ -14,6 +14,7 @@ export function News() {
 
   return (
     <Stack
+      minW={250}
       marginTop={10}
       marginLeft={10}
       display={['none', 'none', 'block', 'block']}
