@@ -6,6 +6,7 @@ import { fetchUserFromSeed, fetchUsers } from '../utils/helpers';
 import { APP_USER_SEED } from '../utils/constants';
 import { User } from '../types';
 import { GetServerSideProps } from 'next';
+import { Feed } from '../components/Feed';
 
 type ProfileProps = {
   user: User;
@@ -31,6 +32,7 @@ export default function Profile({ user }: ProfileProps) {
             <Text color={colors.text}>{`@${user?.login.username}`}</Text>
           </Stack>
         </Box>
+        <Feed isProfile />
       </Layout>
     </Box>
   );

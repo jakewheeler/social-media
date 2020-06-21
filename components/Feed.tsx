@@ -8,7 +8,7 @@ import {
   Flex,
   Spinner,
 } from '@chakra-ui/core';
-import { Tweet, addNewTweet } from '../components/Tweet';
+import { addNewTweet } from '../components/Tweet';
 import colors from '../utils/colors';
 import {
   fetchUser,
@@ -20,13 +20,19 @@ import { useEffect } from 'react';
 import useSWR from 'swr';
 import { TIMELINE_KEY } from '../utils/constants';
 import { FeedItemProps } from '../types';
+import { useAppUser } from '../utils/hooks';
 
-export function Feed() {
+type FeedProps = {
+  isProfile: boolean;
+};
+
+export function Feed({ isProfile = false }: FeedProps) {
   let { data: tweets, error, mutate } = useSWR<FeedItemProps[], Error>(
     TIMELINE_KEY,
     fetchInitialFeedContent,
     { revalidateOnFocus: false }
   );
+  let { user } = useAppUser();
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -54,18 +60,30 @@ export function Feed() {
 
   return (
     <>
-      <Tweet />
       <List minWidth={'100%'} borderBottom={`1px solid ${colors.border}`}>
-        {tweets.map((tweet) => (
-          <FeedItem
-            key={`${tweet.uuid}-${Math.random()}`}
-            avatarSrc={tweet.avatarSrc}
-            content={tweet.content}
-            handle={tweet.handle}
-            name={tweet.name}
-            uuid={tweet.uuid}
-          />
-        ))}
+        {!isProfile
+          ? tweets.map((tweet) => (
+              <FeedItem
+                key={`${tweet.uuid}-${Math.random()}`}
+                avatarSrc={tweet.avatarSrc}
+                content={tweet.content}
+                handle={tweet.handle}
+                name={tweet.name}
+                uuid={tweet.uuid}
+              />
+            ))
+          : tweets
+              .filter((tweet) => tweet.handle === user?.handle)
+              .map((tweet) => (
+                <FeedItem
+                  key={`${tweet.uuid}-${Math.random()}`}
+                  avatarSrc={tweet.avatarSrc}
+                  content={tweet.content}
+                  handle={tweet.handle}
+                  name={tweet.name}
+                  uuid={tweet.uuid}
+                />
+              ))}
       </List>
     </>
   );
