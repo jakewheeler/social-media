@@ -2,15 +2,16 @@ import { Text, Avatar, Stack, Box, Heading } from '@chakra-ui/core';
 import colors from '../utils/colors';
 import { Layout } from '../components/Layout';
 import useSWR from 'swr';
-import { fetchUserFromSeed } from '../utils/helpers';
+import { fetchUserFromSeed, fetchUsers } from '../utils/helpers';
 import { APP_USER_SEED } from '../utils/constants';
 import { User } from '../types';
+import { GetServerSideProps } from 'next';
 
-export default function Profile() {
-  let { data: user, error } = useSWR<User>('appUser', () =>
-    fetchUserFromSeed(APP_USER_SEED)
-  );
+type ProfileProps = {
+  user: User;
+};
 
+export default function Profile({ user }: ProfileProps) {
   return (
     <Box>
       <Layout>
@@ -34,3 +35,12 @@ export default function Profile() {
     </Box>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  let user = await fetchUserFromSeed(APP_USER_SEED);
+  return {
+    props: {
+      user,
+    },
+  };
+};
