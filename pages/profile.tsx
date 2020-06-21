@@ -1,24 +1,33 @@
-import { Text, Avatar, Stack, Box } from '@chakra-ui/core';
+import { Text, Avatar, Stack, Box, Heading } from '@chakra-ui/core';
 import colors from '../utils/colors';
-import { useAppUser } from '../utils/hooks';
 import { Layout } from '../components/Layout';
+import useSWR from 'swr';
+import { fetchUserFromSeed } from '../utils/helpers';
+import { APP_USER_SEED } from '../utils/constants';
+import { User } from '../types';
 
 export default function Profile() {
-  let { user } = useAppUser();
+  let { data: user, error } = useSWR<User>('appUser', () =>
+    fetchUserFromSeed(APP_USER_SEED)
+  );
 
   return (
     <Box>
       <Layout>
-        <Box
-          marginTop={10}
-          minWidth={'100%'}
-          bgImage='https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3300&q=80'
-          bgPos='center'
-        >
-          <Stack>
-            <Avatar src={user?.avatarSrc} />
-            <Text color={colors.text}>{user?.name}</Text>
-            <Text color={colors.text}>{user?.handle}</Text>
+        <Box marginTop={10}>
+          <Stack
+            alignItems='center'
+            borderStyle='solid'
+            borderColor={colors.border}
+            borderWidth={1}
+            padding={5}
+            borderRadius={10}
+          >
+            <Avatar size='2xl' src={user?.picture.large} />
+            <Heading
+              color={colors.text}
+            >{`${user?.name.first} ${user?.name.last}`}</Heading>
+            <Text color={colors.text}>{`@${user?.login.username}`}</Text>
           </Stack>
         </Box>
       </Layout>
