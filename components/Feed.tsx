@@ -23,7 +23,7 @@ import { FeedItemProps } from '../types';
 import { useAppUser } from '../utils/hooks';
 
 type FeedProps = {
-  isProfile: boolean;
+  isProfile?: boolean;
 };
 
 export function Feed({ isProfile = false }: FeedProps) {
