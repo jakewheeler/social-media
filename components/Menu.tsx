@@ -11,7 +11,13 @@ export function Menu() {
       <MenuItem icon='email' text='Messages' link='/' disabled />
       <MenuItem icon='plus-square' text='Lists' link='/' disabled />
       <MenuItem icon='view' text='Profile' link='/profile' />
-      <MenuItem icon='question' text='More' link='/' disabled />
+      <MenuItem icon='view' text='About' link='/about' disabled />
+      <MenuItem
+        icon='question'
+        text='GitHub'
+        link='https://github.com/jakewheeler/social-media'
+        isExternal
+      />
     </Stack>
   );
 }
@@ -21,6 +27,7 @@ type MenuItemProps = {
   text?: string;
   link: string;
   disabled?: boolean;
+  isExternal?: boolean;
 };
 
 export function MenuItem({
@@ -28,17 +35,28 @@ export function MenuItem({
   text,
   link,
   disabled = false,
+  isExternal = false,
 }: MenuItemProps) {
   return (
     <Stack isInline marginTop={10}>
       <Stack isInline align='center'>
         <Icon name={icon} color={disabled ? 'grey' : colors.icon} />
         <Heading as='h4' size='md'>
-          <NextLink href={link}>
-            <Link color='#ffffff' isDisabled={disabled}>
-              {text}
+          {!isExternal ? (
+            <NextLink href={link}>
+              <Link
+                // as={NextLink}
+                color='#ffffff'
+                isDisabled={disabled}
+              >
+                {text}
+              </Link>
+            </NextLink>
+          ) : (
+            <Link color='#ffffff' isDisabled={disabled} href={link} isExternal>
+              {text} <Icon name='external-link' mx='2px' />
             </Link>
-          </NextLink>
+          )}
         </Heading>
       </Stack>
     </Stack>
