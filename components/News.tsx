@@ -8,7 +8,7 @@ export function News() {
   );
 
   if (error) return <Box>Failed to load stories</Box>;
-  if (!data) return <Spinner color={colors.text}></Spinner>;
+  if (!data) return <Spinner margin='0 auto' color={colors.text}></Spinner>;
 
   data.splice(3);
 
@@ -46,11 +46,11 @@ interface HnStory {
 }
 
 export function NewsItem({ storyId }: NewsItemProps) {
-  const { data, error } = useSWR<HnStory, Error>(
+  const { data } = useSWR<HnStory, Error>(
     `https://hacker-news.firebaseio.com/v0/item/${storyId}.json?print=pretty`
   );
-  if (error) return <Box>Failed to load stories</Box>;
-  if (!data) return <Spinner color={colors.text}></Spinner>;
+
+  if (!data) return <Box></Box>;
 
   return (
     <Box

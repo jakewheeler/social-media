@@ -1,7 +1,6 @@
 import { Text, Avatar, Stack, Box, Heading } from '@chakra-ui/core';
 import colors from '../utils/colors';
 import { Layout } from '../components/Layout';
-import useSWR from 'swr';
 import { fetchUserFromSeed, fetchUsers } from '../utils/helpers';
 import { APP_USER_SEED } from '../utils/constants';
 import { User } from '../types';
