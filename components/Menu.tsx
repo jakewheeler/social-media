@@ -11,9 +11,9 @@ export function Menu() {
       <MenuItem icon='email' text='Messages' link='/' disabled />
       <MenuItem icon='plus-square' text='Lists' link='/' disabled />
       <MenuItem icon='view' text='Profile' link='/profile' />
-      <MenuItem icon='view' text='About' link='/about' disabled />
+      <MenuItem icon='info-outline' text='About' link='/about' disabled />
       <MenuItem
-        icon='question'
+        icon='arrow-up'
         text='GitHub'
         link='https://github.com/jakewheeler/social-media'
         isExternal
@@ -44,16 +44,17 @@ export function MenuItem({
         <Heading as='h4' size='md'>
           {!isExternal ? (
             <NextLink href={link}>
-              <Link
-                // as={NextLink}
-                color='#ffffff'
-                isDisabled={disabled}
-              >
+              <Link color={colors.link} isDisabled={disabled}>
                 {text}
               </Link>
             </NextLink>
           ) : (
-            <Link color='#ffffff' isDisabled={disabled} href={link} isExternal>
+            <Link
+              color={colors.link}
+              isDisabled={disabled}
+              href={link}
+              isExternal
+            >
               {text} <Icon name='external-link' mx='2px' />
             </Link>
           )}
