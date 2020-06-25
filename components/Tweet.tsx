@@ -12,6 +12,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Spinner,
 } from '@chakra-ui/core';
 import { ChangeEvent, useReducer } from 'react';
 import { FeedItemProps } from '../types';
@@ -112,41 +113,47 @@ export function Tweet({ closeModal = null }: TweetProps) {
       borderStyle='solid'
       boxSizing='content-box'
     >
-      <Stack isInline margin={2}>
-        <Avatar src={user?.avatarSrc} />
-        <Textarea
-          placeholder="What's happening?"
-          resize='none'
-          bg={colors.bg}
-          color={colors.text}
-          onChange={handleInputChange}
-          value={state.tweetContent}
-        ></Textarea>
-      </Stack>
-      <Stack margin={2}>
-        <Box
-          color={
-            state.charCount > 180
-              ? colors.tweetCounterBad
-              : colors.tweetCounterOk
-          }
-          alignSelf='flex-end'
-        >
-          {state.charCount}
-        </Box>
-        <Button
-          variantColor='blue'
-          variant='solid'
-          alignSelf='flex-end'
-          isDisabled={state.btnIsDisabled}
-          onClick={() => {
-            submitTweet();
-            if (closeModal) closeModal();
-          }}
-        >
-          Tweet
-        </Button>
-      </Stack>
+      {user ? (
+        <>
+          <Stack isInline margin={2}>
+            <Avatar src={user.avatarSrc} />
+            <Textarea
+              placeholder="What's happening?"
+              resize='none'
+              bg={colors.bg}
+              color={colors.text}
+              onChange={handleInputChange}
+              value={state.tweetContent}
+            ></Textarea>
+          </Stack>
+          <Stack margin={2}>
+            <Box
+              color={
+                state.charCount > 180
+                  ? colors.tweetCounterBad
+                  : colors.tweetCounterOk
+              }
+              alignSelf='flex-end'
+            >
+              {state.charCount}
+            </Box>
+            <Button
+              variantColor='blue'
+              variant='solid'
+              alignSelf='flex-end'
+              isDisabled={state.btnIsDisabled}
+              onClick={() => {
+                submitTweet();
+                if (closeModal) closeModal();
+              }}
+            >
+              Tweet
+            </Button>
+          </Stack>
+        </>
+      ) : (
+        <Spinner margin='0 auto' color={colors.spinner}></Spinner>
+      )}
     </Flex>
   );
 }
