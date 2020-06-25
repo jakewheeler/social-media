@@ -13,27 +13,25 @@ type ProfileProps = {
 
 export default function Profile({ user }: ProfileProps) {
   return (
-    <Box>
-      <Layout>
-        <Box marginTop={10}>
-          <Stack
-            alignItems='center'
-            borderStyle='solid'
-            borderColor={colors.border}
-            borderWidth={1}
-            padding={5}
-            borderRadius={10}
-          >
-            <Avatar size='2xl' src={user?.picture.large} />
-            <Heading
-              color={colors.text}
-            >{`${user?.name.first} ${user?.name.last}`}</Heading>
-            <Text color={colors.text}>{`@${user?.login.username}`}</Text>
-          </Stack>
-        </Box>
-        <Feed isProfile />
-      </Layout>
-    </Box>
+    <Layout>
+      <Box marginTop={10}>
+        <Stack
+          alignItems='center'
+          borderStyle='solid'
+          borderColor={colors.border}
+          borderWidth={1}
+          padding={5}
+          borderRadius={10}
+        >
+          <Avatar size='2xl' src={user?.picture.large} />
+          <Heading
+            color={colors.text}
+          >{`${user?.name.first} ${user?.name.last}`}</Heading>
+          <Text color={colors.text}>{`@${user?.login.username}`}</Text>
+        </Stack>
+      </Box>
+      <Feed isProfile />
+    </Layout>
   );
 }
 

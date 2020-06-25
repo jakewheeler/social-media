@@ -22,7 +22,7 @@ export function Layout({ children }: LayoutProps) {
         </Box>
       </Stack>
       <Flex justifyContent='center' flexBasis={'100%'}>
-        <Box>
+        <Box flexBasis='inherit'>
           <Head>
             <title>Social Media</title>
             <link rel='icon' href='/favicon.ico' />
