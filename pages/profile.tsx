@@ -4,7 +4,7 @@ import { Layout } from '../components/Layout';
 import { fetchUserFromSeed, fetchUsers } from '../utils/helpers';
 import { APP_USER_SEED } from '../utils/constants';
 import { User } from '../types';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import { Feed } from '../components/Feed';
 
 type ProfileProps = {
@@ -37,7 +37,7 @@ export default function Profile({ user }: ProfileProps) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetStaticProps = async (context) => {
   let user = await fetchUserFromSeed(APP_USER_SEED);
   return {
     props: {
