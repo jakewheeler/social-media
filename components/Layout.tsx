@@ -11,26 +11,39 @@ type LayoutProps = {
 
 export function Layout({ children }: LayoutProps) {
   return (
-    <Flex direction='row' justifyContent='center' margin='0 auto' maxW={1200}>
-      <Stack direction='column' display={['none', 'block']} marginLeft={3}>
-        <Box marginRight={55}>
-          <Menu />
-          <TweetModal />
-          <Box pos='fixed' bottom={0}>
-            <UserLogout />
-          </Box>
+    <Flex
+      className='flex-container'
+      justifyContent='center'
+      margin='0 auto'
+      maxW={1200}
+      border='solid red'
+    >
+      <Stack
+        className='menu-stack'
+        direction='column'
+        display={['none', 'block']}
+        flex={1}
+        border='solid red'
+        overflow='hidden'
+      >
+        <Menu />
+        <TweetModal />
+        <Box pos='fixed' bottom={0}>
+          <UserLogout />
         </Box>
       </Stack>
-      <Flex justifyContent='center' flexBasis={'100%'}>
-        <Box flexBasis='inherit'>
-          <Head>
-            <title>Social Media</title>
-            <link rel='icon' href='/favicon.ico' />
-          </Head>
+      <Box flex={3} overflow='auto'>
+        <Head>
+          <title>Social Media</title>
+          <link rel='icon' href='/favicon.ico' />
+        </Head>
+        <Box className='overflow-container' overflowY='scroll'>
           <main>{children}</main>
         </Box>
-      </Flex>
-      <News />
+      </Box>
+      <Box flex={1} border='solid red' overflow='hidden'>
+        <News />
+      </Box>
     </Flex>
   );
 }
