@@ -1,7 +1,7 @@
 import { Text, Avatar, Stack, Box, Heading } from '@chakra-ui/core';
 import colors from '../utils/colors';
 import { Layout } from '../components/Layout';
-import { fetchUserFromSeed, fetchUsers } from '../utils/helpers';
+import { fetchUserFromSeed } from '../utils/helpers';
 import { APP_USER_SEED } from '../utils/constants';
 import { User } from '../types';
 import { GetStaticProps } from 'next';
@@ -35,7 +35,7 @@ export default function Profile({ user }: ProfileProps) {
   );
 }
 
-export const getServerSideProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
   let user = await fetchUserFromSeed(APP_USER_SEED);
   return {
     props: {
