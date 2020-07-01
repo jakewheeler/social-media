@@ -1,4 +1,4 @@
-import { Box, Stack, Avatar, Button, Spinner } from '@chakra-ui/core';
+import { Stack, Avatar, Button, Spinner, Text } from '@chakra-ui/core';
 import colors from '../utils/colors';
 import { useAppUser } from '../utils/hooks';
 
@@ -12,8 +12,8 @@ export function UserLogout() {
       <Stack isInline>
         <Avatar src={user.avatarSrc} />
         <Stack>
-          <Box color={colors.text}>{user.name}</Box>
-          <Box color={colors.text}>{user.handle}</Box>
+          <Text color={colors.text}>{user.name}</Text>
+          <Text color={colors.text}>{user.handle}</Text>
         </Stack>
       </Stack>
       <Button

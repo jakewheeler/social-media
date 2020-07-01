@@ -13,12 +13,7 @@ export function News() {
   data.splice(3);
 
   return (
-    <Stack
-      minW={250}
-      marginTop={10}
-      marginLeft={10}
-      display={['none', 'none', 'block', 'block']}
-    >
+    <Stack marginTop={10} marginLeft={5}>
       <Heading as='h1' size='lg' color={colors.text}>
         What's happening
       </Heading>

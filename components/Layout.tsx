@@ -16,33 +16,33 @@ export function Layout({ children }: LayoutProps) {
       justifyContent='center'
       margin='0 auto'
       maxW={1200}
-      border='solid red'
     >
       <Stack
         className='menu-stack'
         direction='column'
         display={['none', 'block']}
         flex={1}
-        border='solid red'
-        overflow='hidden'
+        marginRight={55}
       >
-        <Menu />
-        <TweetModal />
-        <Box pos='fixed' bottom={0}>
-          <UserLogout />
+        <Box position='fixed' marginLeft={5}>
+          <Menu />
+          <TweetModal />
+          <Box pos='fixed' bottom={0}>
+            <UserLogout />
+          </Box>
         </Box>
       </Stack>
-      <Box flex={3} overflow='auto'>
+      <Box flex={3}>
         <Head>
           <title>Social Media</title>
           <link rel='icon' href='/favicon.ico' />
         </Head>
-        <Box className='overflow-container' overflowY='scroll'>
-          <main>{children}</main>
-        </Box>
+        <main>{children}</main>
       </Box>
-      <Box flex={1} border='solid red' overflow='hidden'>
-        <News />
+      <Box flex={1} display={['none', 'none', 'none', 'block']}>
+        <Box position='fixed'>
+          <News />
+        </Box>
       </Box>
     </Flex>
   );
