@@ -11,14 +11,13 @@ export default function App({ Component, pageProps }: AppProps) {
   const { json, fetch } = useStore();
   const [isFetched, setIsFetched] = useState(false);
 
+  // initial feed data fetch
   useEffect(() => {
     if (!isFetched) {
       fetch(TIMELINE_KEY);
       setIsFetched(true);
     }
   }, [setIsFetched, json]);
-
-  console.log(json);
 
   return (
     <SWRConfig
