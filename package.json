@@ -18,7 +18,8 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-typist": "^2.0.5",
-    "swr": "^0.2.2"
+    "swr": "^0.2.2",
+    "zustand": "^2.2.3"
   },
   "devDependencies": {
     "@types/node": "^14.0.5",
