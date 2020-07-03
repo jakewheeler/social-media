@@ -10,46 +10,18 @@ import {
 } from '@chakra-ui/core';
 import { addNewTweet } from '../components/Tweet';
 import colors from '../utils/colors';
-import {
-  fetchUser,
-  createFeedItem,
-  fetchQuote,
-  fetchInitialFeedContent,
-} from '../utils/helpers';
+import { fetchUser, createFeedItem, fetchQuote } from '../utils/helpers';
 import { useEffect } from 'react';
-import useSWR from 'swr';
-import { TIMELINE_KEY } from '../utils/constants';
 import { FeedItemProps } from '../types';
 import { useAppUser } from '../utils/hooks';
+import { useStore, api } from '../utils/userStore';
 
 type FeedProps = {
   isProfile?: boolean;
 };
 
 export function Feed({ isProfile = false }: FeedProps) {
-  let { data: tweets, error, mutate } = useSWR<FeedItemProps[], Error>(
-    TIMELINE_KEY,
-    fetchInitialFeedContent,
-    { revalidateOnFocus: false }
-  );
-  let { user } = useAppUser();
-
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      let tweetUser = await createFeedItem(await fetchUser());
-      let message = await fetchQuote();
-      let newTweets = addNewTweet(tweetUser, message, tweets);
-      mutate(newTweets, false);
-    }, 20000);
-    return () => clearInterval(interval);
-  }, [tweets, mutate]);
-
-  if (error)
-    return (
-      <Box textAlign='center'>
-        <Text color={colors.text}>Failed to load feed</Text>
-      </Box>
-    );
+  let tweets = useStore((state) => state.json);
 
   if (!tweets)
     return (
@@ -57,6 +29,18 @@ export function Feed({ isProfile = false }: FeedProps) {
         <Spinner color={colors.text}></Spinner>
       </Box>
     );
+
+  let { user } = useAppUser();
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      let tweetUser = await createFeedItem(await fetchUser());
+      let message = await fetchQuote();
+      let newTweets = addNewTweet(tweetUser, message, tweets);
+      api.setState({ json: newTweets });
+    }, 20000);
+    return () => clearInterval(interval);
+  }, [tweets, api.setState]);
 
   return (
     <>

@@ -17,10 +17,8 @@ import {
 import { ChangeEvent, useReducer } from 'react';
 import { FeedItemProps } from '../types';
 import colors from '../utils/colors';
-import { fetchInitialFeedContent } from '../utils/helpers';
 import { useAppUser } from '../utils/hooks';
-import useSWR from 'swr';
-import { TIMELINE_KEY } from '../utils/constants';
+import { useStore, api } from '../utils/userStore';
 
 type TweetProps = {
   closeModal?: Function | null;
@@ -68,9 +66,10 @@ function tweetReducer(state: TweetState, action: TweetReducerAction) {
 export function addNewTweet(
   user: FeedItemProps,
   message: string,
-  tweets: FeedItemProps[] | undefined
-) {
-  if (!tweets) return;
+  tweets: FeedItemProps[]
+): FeedItemProps[] {
+  let empty: FeedItemProps[] = [];
+  if (!tweets) return empty;
 
   let newTweets = [...tweets];
   let newTweet: FeedItemProps = {
@@ -85,11 +84,7 @@ export function Tweet({ closeModal = null }: TweetProps) {
   const [state, dispatch] = useReducer(tweetReducer, tweetState);
   let { user } = useAppUser();
 
-  let { data: tweets, mutate } = useSWR<FeedItemProps[], Error>(
-    TIMELINE_KEY,
-    fetchInitialFeedContent,
-    { revalidateOnMount: false }
-  );
+  let tweets = useStore((state) => state.json);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -100,7 +95,7 @@ export function Tweet({ closeModal = null }: TweetProps) {
   const submitTweet = () => {
     if (!state.btnIsDisabled && user) {
       let newTweets = addNewTweet(user, state.tweetContent, tweets);
-      mutate(newTweets, false);
+      api.setState({ json: newTweets });
       dispatch({ type: 'SUBMIT_TWEET' });
     }
   };
