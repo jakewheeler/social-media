@@ -14,7 +14,7 @@ import { fetchUser, createFeedItem, fetchQuote } from '../utils/helpers';
 import { useEffect } from 'react';
 import { FeedItemProps } from '../types';
 import { useAppUser } from '../utils/hooks';
-import { useStore, api } from '../utils/userStore';
+import { useStore, api } from '../utils/stores';
 
 type FeedProps = {
   isProfile?: boolean;

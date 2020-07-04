@@ -18,7 +18,7 @@ import { ChangeEvent, useReducer } from 'react';
 import { FeedItemProps } from '../types';
 import colors from '../utils/colors';
 import { useAppUser } from '../utils/hooks';
-import { useStore, api } from '../utils/userStore';
+import { useStore, api } from '../utils/stores';
 
 type TweetProps = {
   closeModal?: Function | null;

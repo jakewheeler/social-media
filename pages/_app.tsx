@@ -5,7 +5,7 @@ import axios from 'axios';
 import colors from '../utils/colors';
 import { TIMELINE_KEY } from '../utils/constants';
 import { useState, useEffect } from 'react';
-import { useStore } from '../utils/userStore';
+import { useStore } from '../utils/stores';
 
 export default function App({ Component, pageProps }: AppProps) {
   const { json, fetch } = useStore();

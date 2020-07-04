@@ -1,6 +1,6 @@
 import create from 'zustand';
 import { FeedItemProps } from '../types';
-import { fetchInitialFeedContent } from '../utils/helpers';
+import { fetchInitialFeedContent } from './helpers';
 interface Set {
   json: FeedItemProps[];
   fetch: (url: string) => void;
