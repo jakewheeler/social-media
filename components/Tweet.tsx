@@ -158,10 +158,13 @@ export function TweetModal() {
   return (
     <>
       <Button
+        size='lg'
         onClick={onOpen}
         variantColor={colors.button}
         variant='solid'
         marginTop={10}
+        width='100%'
+        rounded='20px'
       >
         Tweet
       </Button>
