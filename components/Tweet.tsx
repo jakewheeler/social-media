@@ -12,7 +12,9 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Spinner,
+  HStack,
+  SkeletonCircle,
+  SkeletonText,
 } from '@chakra-ui/core';
 import { ChangeEvent, useReducer } from 'react';
 import { FeedItemProps } from '../types';
@@ -110,7 +112,7 @@ export function Tweet({ closeModal = null }: TweetProps) {
     >
       {user ? (
         <>
-          <Stack isInline margin={2}>
+          <HStack margin={2} p={2}>
             <Avatar src={user.avatarSrc} />
             <Textarea
               placeholder="What's happening?"
@@ -120,7 +122,7 @@ export function Tweet({ closeModal = null }: TweetProps) {
               onChange={handleInputChange}
               value={state.tweetContent}
             ></Textarea>
-          </Stack>
+          </HStack>
           <Stack margin={2}>
             <Box
               color={
@@ -147,7 +149,10 @@ export function Tweet({ closeModal = null }: TweetProps) {
           </Stack>
         </>
       ) : (
-        <Spinner margin='0 auto' color={colors.spinner}></Spinner>
+        <Box padding='6' boxShadow='lg' bg={colors.bg}>
+          <SkeletonCircle size='10' />
+          <SkeletonText mt='4' noOfLines={4} spacing='4' />
+        </Box>
       )}
     </Flex>
   );
@@ -171,15 +176,15 @@ export function TweetModal() {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay>
-        <ModalContent>
-          <ModalHeader color={colors.text} backgroundColor={colors.bg}>
-            Tweet
-          </ModalHeader>
-          <ModalCloseButton color={colors.text} />
-          <ModalBody backgroundColor={colors.bg}>
-            <Tweet closeModal={onClose} />
-          </ModalBody>
-        </ModalContent>
+          <ModalContent>
+            <ModalHeader color={colors.text} backgroundColor={colors.bg}>
+              Tweet
+            </ModalHeader>
+            <ModalCloseButton color={colors.text} />
+            <ModalBody backgroundColor={colors.bg}>
+              <Tweet closeModal={onClose} />
+            </ModalBody>
+          </ModalContent>
         </ModalOverlay>
       </Modal>
     </>

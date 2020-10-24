@@ -23,11 +23,11 @@ export function News() {
       {data ? getData(data).map((id) => (
         <NewsItem key={id} storyId={id} minH={100}/>
       )) : <SkeleBlock/>}
-      {/* <SkeleBlock/> */}
     </VStack>
   );
 }
 
+// placeholder for news items when loading
 function SkeleBlock() {
   return (
     <VStack align='left'>

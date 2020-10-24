@@ -1,3 +1,5 @@
+import { BoxProps } from "@chakra-ui/core";
+
 export interface User {
   picture: {
     large: string;
@@ -25,4 +27,4 @@ export type FeedItemProps = {
   handle: string;
   content?: string;
   uuid?: string;
-};
+}

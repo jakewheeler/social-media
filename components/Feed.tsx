@@ -7,6 +7,7 @@ import {
   Avatar,
   Flex,
   Spinner,
+  Slide,
 } from '@chakra-ui/core';
 import { addNewTweet } from '../components/Tweet';
 import colors from '../utils/colors';
@@ -43,10 +44,24 @@ export function Feed({ isProfile = false }: FeedProps) {
   }, [tweets, api.setState]);
 
   return (
-    <>
-      <List minWidth={'100%'} borderBottom={`1px solid ${colors.border}`}>
-        {!isProfile
-          ? tweets.map((tweet) => (
+    // <Slide placement='bottom' timeout={250} in={!!tweets}>
+    //   {(styles) => (
+    //     <Box style={{ ...styles, position: 'static' }} minWidth='100%'>
+    <List borderBottom={`1px solid ${colors.border}`} minWidth='100%'>
+      {!isProfile
+        ? tweets.map((tweet) => (
+            <FeedItem
+              key={`${tweet.uuid}-${Math.random()}`}
+              avatarSrc={tweet.avatarSrc}
+              content={tweet.content}
+              handle={tweet.handle}
+              name={tweet.name}
+              uuid={tweet.uuid}
+            />
+          ))
+        : tweets
+            .filter((tweet) => tweet.handle === user?.handle)
+            .map((tweet) => (
               <FeedItem
                 key={`${tweet.uuid}-${Math.random()}`}
                 avatarSrc={tweet.avatarSrc}
@@ -55,21 +70,11 @@ export function Feed({ isProfile = false }: FeedProps) {
                 name={tweet.name}
                 uuid={tweet.uuid}
               />
-            ))
-          : tweets
-              .filter((tweet) => tweet.handle === user?.handle)
-              .map((tweet) => (
-                <FeedItem
-                  key={`${tweet.uuid}-${Math.random()}`}
-                  avatarSrc={tweet.avatarSrc}
-                  content={tweet.content}
-                  handle={tweet.handle}
-                  name={tweet.name}
-                  uuid={tweet.uuid}
-                />
-              ))}
-      </List>
-    </>
+            ))}
+    </List>
+    //     </Box>
+    //   )}
+    // </Slide>
   );
 }
 function FeedItem({ avatarSrc, name, handle, content }: FeedItemProps) {
@@ -89,7 +94,7 @@ function FeedItem({ avatarSrc, name, handle, content }: FeedItemProps) {
           <Stack spacing={0} marginLeft={5}>
             <Stack isInline spacing={3}>
               <Text color={colors.text}>{name}</Text>
-              <Text color={colors.border}>{handle}</Text>
+              <Text color='gray.400'>{handle}</Text>
             </Stack>
             <Text color={colors.text} marginTop={3}>
               {content}

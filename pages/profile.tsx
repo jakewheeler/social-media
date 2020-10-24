@@ -1,4 +1,4 @@
-import { Text, Avatar, Stack, Box, Heading } from '@chakra-ui/core';
+import { Text, Avatar, Box, Heading, VStack } from '@chakra-ui/core';
 import colors from '../utils/colors';
 import { Layout } from '../components/Layout';
 import { fetchUserFromSeed } from '../utils/helpers';
@@ -14,8 +14,8 @@ type ProfileProps = {
 export default function Profile({ user }: ProfileProps) {
   return (
     <Layout>
-      <Box marginTop={10}>
-        <Stack
+      <Box>
+        <VStack
           alignItems='center'
           borderStyle='solid'
           borderColor={colors.border}
@@ -28,7 +28,7 @@ export default function Profile({ user }: ProfileProps) {
             color={colors.text}
           >{`${user?.name.first} ${user?.name.last}`}</Heading>
           <Text color={colors.text}>{`@${user?.login.username}`}</Text>
-        </Stack>
+        </VStack>
       </Box>
       <Feed isProfile />
     </Layout>
