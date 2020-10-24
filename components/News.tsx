@@ -1,4 +1,4 @@
-import { Stack, Box, Spinner, Link, Heading } from '@chakra-ui/core';
+import { VStack, Box, Spinner, Link, Heading, BoxProps } from '@chakra-ui/core';
 import useSWR from 'swr';
 import colors from '../utils/colors';
 
@@ -13,20 +13,20 @@ export function News() {
   data.splice(3);
 
   return (
-    <Stack marginTop={10} marginLeft={5}>
+    <VStack marginTop={10} marginLeft={5} align='left'>
       <Heading as='h1' size='lg' color={colors.text}>
-        What's happening
+        What's happening 🎉
       </Heading>
       {data.map((id) => (
-        <NewsItem key={id} storyId={id} />
+        <NewsItem key={id} storyId={id} minH={100}/>
       ))}
-    </Stack>
+    </VStack>
   );
 }
 
 type NewsItemProps = {
   storyId: number;
-};
+} & BoxProps;
 
 interface HnStory {
   by: string;
@@ -40,7 +40,7 @@ interface HnStory {
   url: string;
 }
 
-export function NewsItem({ storyId }: NewsItemProps) {
+export function NewsItem({ storyId, ...props }: NewsItemProps) {
   const { data } = useSWR<HnStory, Error>(
     `https://hacker-news.firebaseio.com/v0/item/${storyId}.json?print=pretty`
   );
@@ -56,6 +56,7 @@ export function NewsItem({ storyId }: NewsItemProps) {
       padding={5}
       color={colors.text}
       marginTop={2}
+      {...props}
     >
       <Link href={data.url} isExternal>
         {data.title}
