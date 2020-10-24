@@ -20,7 +20,7 @@ export function UserLogout() {
         onClick={() => {
           window.alert('goodbye!');
         }}
-        variantColor={colors.button}
+        colorScheme={colors.button}
       >
         Logout
       </Button>

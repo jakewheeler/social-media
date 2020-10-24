@@ -1,32 +1,33 @@
-import { Stack, Link, Heading, Icon } from '@chakra-ui/core';
+import { VStack, Link, Heading, Text, LinkProps } from '@chakra-ui/core';
+import {ExternalLinkIcon, ArrowUpIcon, EmailIcon, InfoIcon, PlusSquareIcon, StarIcon, ViewIcon, SearchIcon, InfoOutlineIcon} from '@chakra-ui/icons'
 import NextLink from 'next/link';
 import colors from '../utils/colors';
 
 export function Menu() {
   return (
-    <Stack>
-      <MenuItem icon='star' text='Home' link='/' />
-      <MenuItem icon='search' text='Explore' link='/' disabled />
-      <MenuItem icon='info' text='Notifications' link='/' disabled />
-      <MenuItem icon='email' text='Messages' link='/' disabled />
-      <MenuItem icon='plus-square' text='Lists' link='/' disabled />
-      <MenuItem icon='view' text='Profile' link='/profile' />
-      <MenuItem icon='info-outline' text='About' link='/about' disabled />
+    <VStack align='left' spacing={5}>
+      <MenuItem icon={<StarIcon color={colors.icon}/>} text='Home' link='/' />
+      <MenuItem icon={<SearchIcon color='grey'/>} text='Explore' link='/' isDisabled/>
+      <MenuItem icon={<InfoIcon color='grey'/>} text='Notifications' link='/' isDisabled/>
+      <MenuItem icon={<EmailIcon color='grey'/>} text='Messages' link='/' isDisabled/>
+      <MenuItem icon={<PlusSquareIcon color='grey'/>} text='Lists' link='/' isDisabled/>
+      <MenuItem icon={<ViewIcon color={colors.icon}/>} text='Profile' link='/profile' />
+      <MenuItem icon={<InfoOutlineIcon color='grey'/>} text='About' link='/about' isDisabled/>
       <MenuItem
-        icon='arrow-up'
+        icon={<ArrowUpIcon color={colors.icon}/>}
         text='GitHub'
         link='https://github.com/jakewheeler/social-media'
         isExternal
       />
-    </Stack>
+    </VStack>
   );
 }
 
 type MenuItemProps = {
-  icon: string;
+  icon: React.ReactElement;
   text?: string;
   link: string;
-  disabled?: boolean;
+  isDisabled?: boolean;
   isExternal?: boolean;
 };
 
@@ -34,32 +35,44 @@ export function MenuItem({
   icon,
   text,
   link,
-  disabled = false,
+  isDisabled = false,
   isExternal = false,
 }: MenuItemProps) {
   return (
-    <Stack isInline marginTop={10}>
-      <Stack isInline align='center'>
-        <Icon name={icon} color={disabled ? 'grey' : colors.icon} />
+    <VStack isInline marginTop={10}>
+      <VStack isInline align='center'>
+        {icon}
         <Heading as='h4' size='md'>
           {!isExternal ? (
-            <NextLink href={link}>
-              <Link color={colors.link} isDisabled={disabled}>
+              <MenuLink link={link} isDisabled={isDisabled}>
                 {text}
-              </Link>
-            </NextLink>
+              </MenuLink>
           ) : (
             <Link
               color={colors.link}
-              isDisabled={disabled}
               href={link}
               isExternal
             >
-              {text} <Icon name='external-link' mx='2px' />
+              {text} <ExternalLinkIcon name='external-link' mx='2px' />
             </Link>
           )}
         </Heading>
-      </Stack>
-    </Stack>
+      </VStack>
+    </VStack>
   );
+}
+
+type MenuLink = {
+  isDisabled: boolean;
+  link: string;
+} & LinkProps
+
+function MenuLink({isDisabled = true, link, children, ...props}: MenuLink) {
+  // Chakra UI no longer provies an 'isDisabled' prop, so we
+  // will just make our own 🙂
+return isDisabled ? <Text color='grey'>{children}</Text> : ( 
+<NextLink href={link}> 
+  <Link color={colors.link} {...props}>{children}</Link> 
+</NextLink>
+)
 }

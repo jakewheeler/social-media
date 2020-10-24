@@ -1,4 +1,4 @@
-import { ThemeProvider, CSSReset } from '@chakra-ui/core';
+import { ChakraProvider, extendTheme } from "@chakra-ui/core"
 import { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
 import axios from 'axios';
@@ -6,6 +6,18 @@ import colors from '../utils/colors';
 import { TIMELINE_KEY } from '../utils/constants';
 import { useState, useEffect } from 'react';
 import { useStore } from '../utils/stores';
+
+const theme = extendTheme({
+  styles: {
+    global: {
+      body: {
+        bg: `${colors.bg}`,
+        fontFamily: 'Helvetica',
+        overflowY: 'scroll'
+      }
+    }
+  }
+})
 
 export default function App({ Component, pageProps }: AppProps) {
   const { json, fetch } = useStore();
@@ -27,16 +39,9 @@ export default function App({ Component, pageProps }: AppProps) {
         dedupingInterval: 10000000,
       }}
     >
-      <ThemeProvider>
-        <CSSReset />
+      <ChakraProvider resetCSS theme={theme}>
         <Component {...pageProps} />
-        <style jsx global>{`
-          html {
-            background: ${colors.bg};
-            font-family: Helvetica;
-          }
-        `}</style>
-      </ThemeProvider>
+      </ChakraProvider>
     </SWRConfig>
   );
 }

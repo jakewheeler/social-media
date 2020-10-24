@@ -86,7 +86,7 @@ export function Tweet({ closeModal = null }: TweetProps) {
 
   let tweets = useStore((state) => state.json);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     let inputValue = e.target.value;
     dispatch({ type: 'HANDLE_TWEET_CHANGE', tweetValue: inputValue });
@@ -133,7 +133,7 @@ export function Tweet({ closeModal = null }: TweetProps) {
               {state.charCount}
             </Box>
             <Button
-              variantColor='blue'
+              colorScheme='blue'
               variant='solid'
               alignSelf='flex-end'
               isDisabled={state.btnIsDisabled}
@@ -160,7 +160,7 @@ export function TweetModal() {
       <Button
         size='lg'
         onClick={onOpen}
-        variantColor={colors.button}
+        colorScheme={colors.button}
         variant='solid'
         marginTop={10}
         width='100%'
@@ -170,7 +170,7 @@ export function TweetModal() {
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
+        <ModalOverlay>
         <ModalContent>
           <ModalHeader color={colors.text} backgroundColor={colors.bg}>
             Tweet
@@ -180,6 +180,7 @@ export function TweetModal() {
             <Tweet closeModal={onClose} />
           </ModalBody>
         </ModalContent>
+        </ModalOverlay>
       </Modal>
     </>
   );
