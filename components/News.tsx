@@ -14,7 +14,7 @@ export function News() {
 
   return (
     <VStack marginTop={10} marginLeft={5} align='left'>
-      <Heading as='h1' size='lg' color={colors.text}>
+      <Heading as='h1' size='md' color={colors.text} flexWrap='nowrap'>
         What's happening 🎉
       </Heading>
       {data.map((id) => (

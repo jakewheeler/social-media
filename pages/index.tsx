@@ -6,10 +6,8 @@ import { Tweet } from '../components/Tweet';
 export default function Index() {
   return (
     <Layout>
-      <Box className='main-content' marginTop={10}>
         <Tweet />
         <Feed />
-      </Box>
     </Layout>
   );
 }
