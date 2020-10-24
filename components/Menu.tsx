@@ -1,4 +1,4 @@
-import { VStack, Link, Heading, Text, LinkProps } from '@chakra-ui/core';
+import { VStack, Link, Heading, Text, LinkProps, HStack } from '@chakra-ui/core';
 import {ExternalLinkIcon, ArrowUpIcon, EmailIcon, InfoIcon, PlusSquareIcon, StarIcon, ViewIcon, SearchIcon, InfoOutlineIcon} from '@chakra-ui/icons'
 import NextLink from 'next/link';
 import colors from '../utils/colors';
@@ -39,8 +39,8 @@ export function MenuItem({
   isExternal = false,
 }: MenuItemProps) {
   return (
-    <VStack isInline marginTop={10}>
-      <VStack isInline align='center'>
+    <VStack align='left'>
+      <HStack>
         {icon}
         <Heading as='h4' size='md'>
           {!isExternal ? (
@@ -57,7 +57,7 @@ export function MenuItem({
             </Link>
           )}
         </Heading>
-      </VStack>
+      </HStack>
     </VStack>
   );
 }

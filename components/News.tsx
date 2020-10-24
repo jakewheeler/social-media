@@ -13,7 +13,7 @@ export function News() {
   data.splice(3);
 
   return (
-    <VStack marginTop={10} marginLeft={5} align='left'>
+    <VStack marginLeft={5} align='left'>
       <Heading as='h1' size='md' color={colors.text} flexWrap='nowrap'>
         What's happening 🎉
       </Heading>
