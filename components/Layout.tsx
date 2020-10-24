@@ -16,6 +16,7 @@ export function Layout({ children }: LayoutProps) {
         className='layout-container'
         justifyContent='center'
         maxW={1200}
+        w='100%'
       >
         <Stack
           className='menu-stack'

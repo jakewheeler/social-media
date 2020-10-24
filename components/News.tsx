@@ -1,4 +1,4 @@
-import { VStack, Box, Spinner, Link, Heading, BoxProps } from '@chakra-ui/core';
+import { VStack, Box, Spinner, Link, Heading, BoxProps, Skeleton } from '@chakra-ui/core';
 import useSWR from 'swr';
 import colors from '../utils/colors';
 
@@ -6,22 +6,37 @@ export function News() {
   const { data, error } = useSWR<number[], Error>(
     'https://hacker-news.firebaseio.com/v0/beststories.json?print=pretty'
   );
+  
 
   if (error) return <Box>Failed to load stories</Box>;
-  if (!data) return <Spinner margin='0 auto' color={colors.text}></Spinner>;
 
-  data.splice(3);
+  const getData = (data: number[]) => {
+    const [first, second, third] = data;
+    return [first, second, third]
+  }
 
   return (
     <VStack marginLeft={5} align='left'>
       <Heading as='h1' size='md' color={colors.text} flexWrap='nowrap'>
         What's happening 🎉
       </Heading>
-      {data.map((id) => (
+      {data ? getData(data).map((id) => (
         <NewsItem key={id} storyId={id} minH={100}/>
-      ))}
+      )) : <SkeleBlock/>}
+      {/* <SkeleBlock/> */}
     </VStack>
   );
+}
+
+function SkeleBlock() {
+  return (
+    <VStack align='left'>
+      <Skeleton minH={100} startColor="blue.500" endColor="red.500">hi</Skeleton>
+      <Skeleton minH={100} startColor="blue.500" endColor="purple.500">hi</Skeleton>
+      <Skeleton minH={100} startColor="blue.500" endColor="yellow.500">hi</Skeleton>
+    </VStack>
+
+  )
 }
 
 type NewsItemProps = {
