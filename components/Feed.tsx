@@ -7,14 +7,12 @@ import {
   Avatar,
   Flex,
   Spinner,
-  Slide,
 } from '@chakra-ui/core';
 import { addNewTweet } from '../components/Tweet';
 import colors from '../utils/colors';
 import { fetchUser, createFeedItem, fetchQuote } from '../utils/helpers';
 import { useEffect } from 'react';
 import { FeedItemProps } from '../types';
-import { useAppUser } from '../utils/hooks';
 import { useStore, api } from '../utils/stores';
 
 type FeedProps = {
@@ -22,7 +20,7 @@ type FeedProps = {
   isProfile?: boolean;
 };
 
-export function Feed({user, isProfile = false }: FeedProps) {
+export function Feed({ user, isProfile = false }: FeedProps) {
   let tweets = useStore((state) => state.json);
 
   if (!tweets)
@@ -40,7 +38,7 @@ export function Feed({user, isProfile = false }: FeedProps) {
       api.setState({ json: newTweets });
     }, 20000);
     return () => clearInterval(interval);
-  }, [tweets, api.setState]);
+  }, [tweets]);
 
   return (
     <List borderBottom={`1px solid ${colors.border}`} minWidth='100%'>

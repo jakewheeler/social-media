@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { ReactNode } from 'react';
-import { Box, Flex, Stack } from '@chakra-ui/core';
+import { Box, Flex, VStack } from '@chakra-ui/core';
 import { Menu } from '../components/Menu';
 import { UserLogout } from '../components/UserLogout';
 import { News } from '../components/News';
@@ -12,30 +12,33 @@ type LayoutProps = {
   children: ReactNode;
 };
 
-export function Layout({user, children }: LayoutProps) {
+export function Layout({ user, children }: LayoutProps) {
   return (
-    <Flex className='main-container'  justifyContent={{base: 'flex-start', sm: 'center'}} mt={2}>
+    <Flex
+      className='main-container'
+      justifyContent={{ base: 'flex-start', sm: 'center' }}
+      mt={2}
+    >
       <Flex
         className='layout-container'
         justifyContent='center'
         maxW={1200}
         w='100%'
       >
-        <Stack
+        <VStack
           className='menu-stack'
-          direction='column'
-          display={['none', 'block']}
+          display={{ base: 'none', sm: 'block' }}
           flex={1}
           marginRight={55}
         >
           <Box position='fixed' marginLeft={5}>
             <Menu />
-            <TweetModal user={user}/>
+            <TweetModal user={user} />
             <Box pos='fixed' bottom={0}>
-              <UserLogout user={user}/>
+              <UserLogout user={user} />
             </Box>
           </Box>
-        </Stack>
+        </VStack>
         <Box flex={3}>
           <Head>
             <title>Social Media</title>
@@ -43,7 +46,7 @@ export function Layout({user, children }: LayoutProps) {
           </Head>
           <main>{children}</main>
         </Box>
-        <Box flex={1} display={['none', 'none', 'none', 'block']}>
+        <Box flex={1} display={{ base: 'none', lg: 'block' }}>
           <Box position='fixed'>
             <News />
           </Box>
