@@ -3,13 +3,13 @@ import { FeedItemProps } from '../types';
 import { fetchInitialFeedContent } from './helpers';
 interface Set {
   json: FeedItemProps[];
-  fetch: (url: string) => void;
+  fetch: () => void;
 }
 
 export const [useStore, api] = create<Set>(
   (set): Set => ({
     json: [],
-    fetch: async (url: string) => {
+    fetch: async () => {
       try {
         const response = await fetchInitialFeedContent();
         set({ json: response });
