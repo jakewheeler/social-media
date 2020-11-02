@@ -72,9 +72,6 @@ export function Feed({ isProfile = false }: FeedProps) {
               />
             ))}
     </List>
-    //     </Box>
-    //   )}
-    // </Slide>
   );
 }
 function FeedItem({ avatarSrc, name, handle, content }: FeedItemProps) {

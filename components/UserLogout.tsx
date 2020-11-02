@@ -1,12 +1,12 @@
-import { Stack, Avatar, Button, Spinner, Text } from '@chakra-ui/core';
+import { Stack, Avatar, Button, Text } from '@chakra-ui/core';
 import colors from '../utils/colors';
-import { useAppUser } from '../utils/hooks';
+import { FeedItemProps } from '../types';
 
-export function UserLogout() {
-  let { user } = useAppUser();
+type UserLogoutProps = {
+  user: FeedItemProps;
+};
 
-  if (!user) return <Spinner color='white'></Spinner>;
-
+export function UserLogout({ user }: UserLogoutProps) {
   return (
     <Stack marginBottom={2} justifyContent='center'>
       <Stack isInline>

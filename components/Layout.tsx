@@ -5,11 +5,14 @@ import { Menu } from '../components/Menu';
 import { UserLogout } from '../components/UserLogout';
 import { News } from '../components/News';
 import { TweetModal } from './Tweet';
+import { FeedItemProps } from '../types';
+
 type LayoutProps = {
+  user: FeedItemProps;
   children: ReactNode;
 };
 
-export function Layout({ children }: LayoutProps) {
+export function Layout({user, children }: LayoutProps) {
   return (
     <Flex className='main-container'  justifyContent={{base: 'flex-start', sm: 'center'}} mt={2}>
       <Flex
@@ -29,7 +32,7 @@ export function Layout({ children }: LayoutProps) {
             <Menu />
             <TweetModal />
             <Box pos='fixed' bottom={0}>
-              <UserLogout />
+              <UserLogout user={user}/>
             </Box>
           </Box>
         </Stack>

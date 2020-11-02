@@ -1,5 +1,3 @@
-import { BoxProps } from "@chakra-ui/core";
-
 export interface User {
   picture: {
     large: string;
