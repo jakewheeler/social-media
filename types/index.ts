@@ -8,7 +8,6 @@ export interface User {
     uuid: string;
     username: string;
   };
-
   name: {
     first: string;
     last: string;
@@ -25,4 +24,25 @@ export type FeedItemProps = {
   handle: string;
   content?: string;
   uuid?: string;
+}
+
+export interface HnStory {
+  by: string;
+  descendants: number;
+  id: number;
+  kids: number[];
+  score: number;
+  time: number;
+  title: string;
+  type: string;
+  url: string;
+}
+
+export interface KanyeQuote {
+  quote: string;
+}
+
+export interface Set {
+  json: FeedItemProps[];
+  fetch: () => void;
 }

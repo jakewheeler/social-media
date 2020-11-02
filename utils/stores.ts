@@ -1,10 +1,7 @@
 import create from 'zustand';
-import { FeedItemProps } from '../types';
+import { FeedItemProps, Set } from '../types';
 import { fetchInitialFeedContent } from './helpers';
-interface Set {
-  json: FeedItemProps[];
-  fetch: () => void;
-}
+
 
 export const [useStore, api] = create<Set>(
   (set): Set => ({

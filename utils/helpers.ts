@@ -1,4 +1,4 @@
-import { User, Users, FeedItemProps } from '../types';
+import { User, Users, FeedItemProps, KanyeQuote } from '../types';
 import axios from 'axios';
 import { TIMELINE_KEY } from '../utils/constants';
 
@@ -45,6 +45,4 @@ export async function fetchUser(): Promise<User> {
   return users.data.results[0];
 }
 
-interface KanyeQuote {
-  quote: string;
-}
+

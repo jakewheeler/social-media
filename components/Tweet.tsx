@@ -13,8 +13,6 @@ import {
   ModalCloseButton,
   useDisclosure,
   HStack,
-  SkeletonCircle,
-  SkeletonText,
 } from '@chakra-ui/core';
 import { ChangeEvent, useReducer } from 'react';
 import { FeedItemProps } from '../types';
