@@ -43,7 +43,7 @@ export default function Profile({ user, feedItem }: ProfileProps) {
           <Text color={colors.text}>{`@${user.login.username}`}</Text>
         </VStack>
       </Box>
-      <Feed isProfile />
+      <Feed user={feedItem} isProfile />
     </Layout>
   );
 }

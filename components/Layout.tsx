@@ -30,7 +30,7 @@ export function Layout({user, children }: LayoutProps) {
         >
           <Box position='fixed' marginLeft={5}>
             <Menu />
-            <TweetModal />
+            <TweetModal user={user}/>
             <Box pos='fixed' bottom={0}>
               <UserLogout user={user}/>
             </Box>

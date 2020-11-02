@@ -1,5 +1,4 @@
 import { Layout } from '../components/Layout';
-import { Box } from '@chakra-ui/core';
 import { Feed } from '../components/Feed';
 import { Tweet } from '../components/Tweet';
 import { GetStaticProps } from 'next';
@@ -24,8 +23,8 @@ type IndexProps = {
 export default function Index({ user }: IndexProps) {
   return (
     <Layout user={user}>
-      <Tweet />
-      <Feed />
+      <Tweet user={user} />
+      <Feed user={user} />
     </Layout>
   );
 }

@@ -19,10 +19,10 @@ import {
 import { ChangeEvent, useReducer } from 'react';
 import { FeedItemProps } from '../types';
 import colors from '../utils/colors';
-import { useAppUser } from '../utils/hooks';
 import { useStore, api } from '../utils/stores';
 
 type TweetProps = {
+  user: FeedItemProps;
   closeModal?: Function | null;
 };
 
@@ -82,9 +82,8 @@ export function addNewTweet(
   return newTweets;
 }
 
-export function Tweet({ closeModal = null }: TweetProps) {
+export function Tweet({ user, closeModal = null }: TweetProps) {
   const [state, dispatch] = useReducer(tweetReducer, tweetState);
-  let { user } = useAppUser();
 
   let tweets = useStore((state) => state.json);
 
@@ -110,55 +109,50 @@ export function Tweet({ closeModal = null }: TweetProps) {
       borderStyle='solid'
       boxSizing='content-box'
     >
-      {user ? (
-        <>
-          <HStack margin={2} p={2}>
-            <Avatar src={user.avatarSrc} />
-            <Textarea
-              placeholder="What's happening?"
-              resize='none'
-              bg={colors.bg}
-              color={colors.text}
-              onChange={handleInputChange}
-              value={state.tweetContent}
-            ></Textarea>
-          </HStack>
-          <Stack margin={2}>
-            <Box
-              color={
-                state.charCount > 180
-                  ? colors.tweetCounterBad
-                  : colors.tweetCounterOk
-              }
-              alignSelf='flex-end'
-            >
-              {state.charCount}
-            </Box>
-            <Button
-              colorScheme='blue'
-              variant='solid'
-              alignSelf='flex-end'
-              isDisabled={state.btnIsDisabled}
-              onClick={() => {
-                submitTweet();
-                if (closeModal) closeModal();
-              }}
-            >
-              Tweet
-            </Button>
-          </Stack>
-        </>
-      ) : (
-        <Box padding='6' boxShadow='lg' bg={colors.bg}>
-          <SkeletonCircle size='10' />
-          <SkeletonText mt='4' noOfLines={4} spacing='4' />
+      <HStack margin={2} p={2}>
+        <Avatar src={user.avatarSrc} />
+        <Textarea
+          placeholder="What's happening?"
+          resize='none'
+          bg={colors.bg}
+          color={colors.text}
+          onChange={handleInputChange}
+          value={state.tweetContent}
+        ></Textarea>
+      </HStack>
+      <Stack margin={2}>
+        <Box
+          color={
+            state.charCount > 180
+              ? colors.tweetCounterBad
+              : colors.tweetCounterOk
+          }
+          alignSelf='flex-end'
+        >
+          {state.charCount}
         </Box>
-      )}
+        <Button
+          colorScheme='blue'
+          variant='solid'
+          alignSelf='flex-end'
+          isDisabled={state.btnIsDisabled}
+          onClick={() => {
+            submitTweet();
+            if (closeModal) closeModal();
+          }}
+        >
+          Tweet
+        </Button>
+      </Stack>
     </Flex>
   );
 }
 
-export function TweetModal() {
+type TweetModalProps = {
+  user: FeedItemProps;
+};
+
+export function TweetModal({ user }: TweetModalProps) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -182,7 +176,7 @@ export function TweetModal() {
             </ModalHeader>
             <ModalCloseButton color={colors.text} />
             <ModalBody backgroundColor={colors.bg}>
-              <Tweet closeModal={onClose} />
+              <Tweet user={user} closeModal={onClose} />
             </ModalBody>
           </ModalContent>
         </ModalOverlay>

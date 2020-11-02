@@ -18,10 +18,11 @@ import { useAppUser } from '../utils/hooks';
 import { useStore, api } from '../utils/stores';
 
 type FeedProps = {
+  user: FeedItemProps;
   isProfile?: boolean;
 };
 
-export function Feed({ isProfile = false }: FeedProps) {
+export function Feed({user, isProfile = false }: FeedProps) {
   let tweets = useStore((state) => state.json);
 
   if (!tweets)
@@ -30,8 +31,6 @@ export function Feed({ isProfile = false }: FeedProps) {
         <Spinner color={colors.text}></Spinner>
       </Box>
     );
-
-  let { user } = useAppUser();
 
   useEffect(() => {
     const interval = setInterval(async () => {
@@ -44,9 +43,6 @@ export function Feed({ isProfile = false }: FeedProps) {
   }, [tweets, api.setState]);
 
   return (
-    // <Slide placement='bottom' timeout={250} in={!!tweets}>
-    //   {(styles) => (
-    //     <Box style={{ ...styles, position: 'static' }} minWidth='100%'>
     <List borderBottom={`1px solid ${colors.border}`} minWidth='100%'>
       {!isProfile
         ? tweets.map((tweet) => (
