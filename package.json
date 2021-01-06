@@ -11,7 +11,7 @@
     "@chakra-ui/core": "^1.0.0-rc.5",
     "@chakra-ui/icons": "^1.0.0-rc.5",
     "@types/react-typist": "^2.0.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "next": "9.5.5",
     "raw-loader": "^4.0.1",
     "react": "16.13.1",
